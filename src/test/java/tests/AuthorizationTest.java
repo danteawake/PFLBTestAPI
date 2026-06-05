@@ -1,15 +1,12 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
 
-public class AuthorizationTest extends BaseTest{
-
-    LoginPage loginPage = new LoginPage();
+public class AuthorizationTest extends BaseTest {
 
     @Test
-    public void checkAuthorizationWithValidCredentials(){
-        loginPage.openPage();
-        loginPage.login("user@pflb.ru","user");
+    public void checkAuthorizationWithValidCredentials() {
+        loginPage.openPage()
+                .login("user@pflb.ru", "user");
     }
 }
