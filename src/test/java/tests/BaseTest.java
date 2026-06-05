@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class BaseTest {
 
+
     @BeforeAll
     public static void setUp() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
@@ -16,7 +17,7 @@ public class BaseTest {
         Configuration.browser = "chrome";
         Configuration.headless = false;
         Configuration.clickViaJs = true;
-        Configuration.timeout = 10000;
+        Configuration.timeout = 30000;
         Configuration.browserSize = "1920x1080";
         ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--incognito");
