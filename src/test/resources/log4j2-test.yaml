@@ -1,5 +1,3 @@
-# https://springframework.guru/log4j-2-configuration-using-yaml/
-# https://logging.apache.org/log4j/2.x/manual/configuration.html
 Configuration:
   status: INFO
   Properties:
@@ -20,22 +18,40 @@ Configuration:
         pattern: "${DefaultPattern}"
 
   Loggers:
-    logger:
-      - name: consoleLogger
-        level: TRACE
-        additivity: true
-        AppenderRef:
-          ref: consoleAppender
-      - name: fileLogger
-        level: TRACE
+    Logger:
+      # Подавляем INFO сообщения от контейнера потоков WebDriver
+      - name: com.codeborne.selenide.WebDriverThreadLocalContainer
+        level: WARN
         additivity: false
         AppenderRef:
-          ref: fileAppender
+          - ref: consoleAppender
+          - ref: fileAppender
+
+      # Подавляем INFO сообщения от фабрики создания драйверов
+      - name: com.codeborne.selenide.webdriver.WebDriverFactory
+        level: WARN
+        additivity: false
+        AppenderRef:
+          - ref: consoleAppender
+          - ref: fileAppender
+
+      # Общие настройки для остальных компонентов Selenide
+      - name: com.codeborne.selenide
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: consoleAppender
+          - ref: fileAppender
+
+      - name: org.openqa.selenium
+        level: INFO
+        additivity: false
+        AppenderRef:
+          - ref: consoleAppender
+          - ref: fileAppender
 
     Root:
-      level: TRACE
+      level: INFO
       AppenderRef:
         - ref: consoleAppender
-          level: TRACE
         - ref: fileAppender
-          level: TRACE
