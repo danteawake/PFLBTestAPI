@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import step.TableStep;
 import wrappers.DropDown;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -9,6 +10,7 @@ public abstract class BasePage {
 
     protected final SelenideElement logo = $(".d-inline-block.align-top");
     protected final SelenideElement logoLink = $(".navbar-brand");
+    protected final TableStep tableStep = new TableStep();
     //-----Users
     public final DropDown usersReadAllTab = new DropDown("Users", "Read all");
     public final DropDown usersReadUsersWithCarsTab = new DropDown("Users", "Read user with cars");
