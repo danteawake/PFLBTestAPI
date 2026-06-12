@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import pages.UsersReadAllPage;
+import pages.UsersReadUserWithCar;
 
 public class BaseTest {
 
@@ -17,6 +18,7 @@ public class BaseTest {
 
     protected LoginPage loginPage;
     protected UsersReadAllPage usersReadAllPage;
+    protected UsersReadUserWithCar usersReadUserWithCar;
 
     @BeforeClass
     public static void setUp() {
@@ -26,7 +28,7 @@ public class BaseTest {
         Configuration.browser = "chrome";
         Configuration.headless = false;
         Configuration.clickViaJs = true;
-        Configuration.timeout = 30000;
+        Configuration.timeout = 10000;
         Configuration.browserSize = "1920x1080";
         ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--incognito");
@@ -39,5 +41,6 @@ public class BaseTest {
         logger.info("Инициализация объектов страниц перед тестом.");
         loginPage = new LoginPage();
         usersReadAllPage = new UsersReadAllPage();
+        usersReadUserWithCar = new UsersReadUserWithCar();
     }
 }
