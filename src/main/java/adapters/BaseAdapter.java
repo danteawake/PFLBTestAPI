@@ -1,5 +1,6 @@
 package adapters;
 
+import com.google.gson.Gson;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -10,6 +11,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 public class BaseAdapter {
+    static Gson gson = new Gson();
 
     public static RequestSpecification spec = new RequestSpecBuilder()
             .setBaseUri("http://82.142.167.37:4879")
@@ -27,6 +29,16 @@ public class BaseAdapter {
             .expectStatusCode(404)
             .build();
 
+    public static ResponseSpecification ok201 = new ResponseSpecBuilder()
+            .expectStatusCode(201)
+            .build();
+
+    public static ResponseSpecification ok202 = new ResponseSpecBuilder()
+            .expectStatusCode(202)
+            .build();
+    public static ResponseSpecification ok204 = new ResponseSpecBuilder()
+            .expectStatusCode(204)
+            .build();
     public static ResponseSpecification access202 = new ResponseSpecBuilder()
             .expectStatusCode(202)
             .build();
