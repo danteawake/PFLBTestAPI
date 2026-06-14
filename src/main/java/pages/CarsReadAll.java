@@ -44,6 +44,8 @@ public class CarsReadAll extends BasePage {
 
     @Step("Проверяем сортировку по ID")
     public CarsReadAll checkSortingById() {
+        //Проверяем сортировку ASC
+        log.info("Начинаем проверку сортировки ASC");
         ElementsCollection initCollectionString = $$("table tbody tr td:nth-child(1)"); //Получили текстовую коллекцию
         List<Integer> initCollectionInt = initCollectionString.texts().stream()//Перевели стринговую  в числовую коллекцию
                 .map(Integer::parseInt)
@@ -59,7 +61,18 @@ public class CarsReadAll extends BasePage {
                 .map(Integer::parseInt)
                 .toList();
         Assert.assertEquals(gotCollectionInt,initCollectionIntSorted);
-        log.info("Проверка на идентичность массивов пройдена успешно");
+        log.info("Проверка на идентичность массивов ASC пройдена успешно");
+//Проверяем сортировку DESC
+        log.info("Начинаем проверку сортировки DESC");
+        Collections.reverse(initCollectionIntSorted);
+        $("[aria-label='sort']").$(byText("ID")).click();
+        sleep(3000);
+        ElementsCollection gotCollectionStringRev = $$("table tbody tr td:nth-child(1)"); //Получили текстовую коллекцию
+        List<Integer> gotCollectionIntRev= initCollectionString.texts().stream()//Перевели стринговую  в числовую коллекцию
+                .map(Integer::parseInt)
+                .toList();
+        Assert.assertEquals(gotCollectionIntRev,initCollectionIntSorted);
+        log.info("Проверка на идентичность массивов DESC пройдена успешно");
         return this;
     }
 
