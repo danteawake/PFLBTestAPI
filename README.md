@@ -1,6 +1,21 @@
 
 # ![Шапка чеклиста](https://github.com/Tanusha-tech/Tanusha-tech/blob/main/header.png)
 
+## Содержание
+- [Технологии](#технологии)
+- 
+- 
+
+## Технологии
+ - [Java](https://www.oracle.com/java/technologies/downloads/)
+ - [Maven](https://maven.apache.org/)
+ - [Selenide](https://selenide.org/)
+ - [RestAssured](https://rest-assured.io/)
+ - [Test NG](https://testng.org/)
+ - [Allure](https://allurereport.org/docs/)
+ - [Log4j2](https://logging.apache.org/log4j/3.x/) & [Lombok](https://projectlombok.org/)
+ - [JDBC](https://dev.mysql.com/downloads/connector/j/)
+
 ---
 ## "Houses" -> "Read all" <http://82.142.167.37:4881/#/read/houses>
 #### Проверка перехода по ссылке Read all
