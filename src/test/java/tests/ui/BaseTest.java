@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import pages.AllPostPage;
 import pages.LoginPage;
 import pages.UsersReadAllPage;
 import pages.UsersReadUserWithCar;
@@ -19,6 +20,7 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected UsersReadAllPage usersReadAllPage;
     protected UsersReadUserWithCar usersReadUserWithCar;
+    protected AllPostPage allPostPage;
 
     @BeforeClass
     public static void setUp() {
@@ -42,5 +44,6 @@ public class BaseTest {
         loginPage = new LoginPage();
         usersReadAllPage = new UsersReadAllPage();
         usersReadUserWithCar = new UsersReadUserWithCar();
+        allPostPage = new AllPostPage();
     }
 }
