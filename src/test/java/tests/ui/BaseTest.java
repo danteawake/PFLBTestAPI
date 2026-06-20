@@ -9,13 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.safari.SafariOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import pages.AllPostPage;
-import pages.LoginPage;
-import pages.UsersReadAllPage;
-import pages.UsersReadUserWithCar;
+import pages.*;
 
 public class BaseTest {
 
@@ -28,6 +24,8 @@ public class BaseTest {
     protected UsersReadAllPage usersReadAllPage;
     protected UsersReadUserWithCar usersReadUserWithCar;
     protected AllPostPage allPostPage;
+    protected UserAddMoneyPage userAddMoneyPage;
+    protected CreateUserPage createUserPage;
 
     @BeforeClass
     public void setUp() {  // Убрали static
@@ -119,5 +117,7 @@ public class BaseTest {
         usersReadAllPage = new UsersReadAllPage();
         usersReadUserWithCar = new UsersReadUserWithCar();
         allPostPage = new AllPostPage();
+        userAddMoneyPage = new UserAddMoneyPage();
+        createUserPage = new CreateUserPage();
     }
 }
