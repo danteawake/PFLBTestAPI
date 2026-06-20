@@ -32,7 +32,11 @@ public class BaseTest {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.baseUrl = "http://82.142.167.37:4881/";
-        Configuration.browser = "chrome";
+
+        // Читаем браузер из Jenkins, если не передан — используем chrome по умолчанию
+        String browserFromJenkins = System.getProperty("browser", "chrome");
+        Configuration.browser = browserFromJenkins;
+
         Configuration.timeout = 10000;
         Configuration.clickViaJs = true;
 
