@@ -73,7 +73,7 @@ public class BaseTest {
             }
             options.addArguments("--window-size=1920,1080");
             options.setAcceptInsecureCerts(true);
-            options.setCapability("unhandledPromptBehavior", "accept");
+            options.setCapability("unhandledPromptBehavior", "ignore");
             Configuration.browserCapabilities = options;
 
         } else if (currentBrowser.contains("edge")) {
@@ -86,13 +86,13 @@ public class BaseTest {
             options.addArguments("--disable-gpu");
             options.addArguments("--window-size=1920,1080");
             options.setAcceptInsecureCerts(true);
-            options.setCapability("unhandledPromptBehavior", "accept");
+            options.setCapability("unhandledPromptBehavior", "ignore");
             Configuration.browserCapabilities = options;
 
         } else if (currentBrowser.contains("safari")) {
             SafariOptions options = new SafariOptions();
             options.setCapability("acceptInsecureCerts", true);
-            options.setCapability("unhandledPromptBehavior", "accept");
+            options.setCapability("unhandledPromptBehavior", "ignore");
             Configuration.browserCapabilities = options;
 
         } else {
@@ -111,7 +111,7 @@ public class BaseTest {
             options.addArguments("--disable-blink-features=AutomationControlled");
             options.addArguments("--window-size=1920,1080");
             options.setAcceptInsecureCerts(true);
-            options.setCapability("unhandledPromptBehavior", "accept");
+            options.setCapability("unhandledPromptBehavior", "ignore");
             Configuration.browserCapabilities = options;
         }
 
