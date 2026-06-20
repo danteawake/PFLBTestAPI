@@ -110,7 +110,7 @@ public class BaseTest {
             options = chOptions;
         }
 
-        // Дополнительные полезные настройки
+        // Дополнительные полезные настройки 
         options.setCapability("acceptInsecureCerts", true);
         options.setCapability("unhandledPromptBehavior", "accept");
 
