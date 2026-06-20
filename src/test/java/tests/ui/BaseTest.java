@@ -47,6 +47,15 @@ public class BaseTest {
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         Configuration.headless = isHeadless;
 
+        // === ИСПРАВЛЕНИЕ ДЛЯ SAFARI ===
+        // Если выбран Safari, принудительно выключаем headless-режим Selenide
+        if (Configuration.browser.toLowerCase().contains("safari")) {
+            Configuration.headless = false;
+            isHeadless = false;
+        } else {
+            Configuration.headless = isHeadless;
+        }
+
         // === Чтение логина и пароля из параметров (Jenkins / локально) ===
         String username = System.getProperty("test.user");
         String password = System.getProperty("test.password");
