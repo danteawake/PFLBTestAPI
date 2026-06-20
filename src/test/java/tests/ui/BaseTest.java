@@ -21,7 +21,6 @@ public class BaseTest {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
 
-    // === Добавили эти две статические переменные ===
     protected static String testUsername;
     protected static String testPassword;
 
@@ -46,15 +45,6 @@ public class BaseTest {
         // Управляем headless через системное свойство из Jenkins
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         Configuration.headless = isHeadless;
-
-        // === ИСПРАВЛЕНИЕ ДЛЯ SAFARI ===
-        // Если выбран Safari, принудительно выключаем headless-режим Selenide
-        if (Configuration.browser.toLowerCase().contains("safari")) {
-            Configuration.headless = false;
-            isHeadless = false;
-        } else {
-            Configuration.headless = isHeadless;
-        }
 
         // === Чтение логина и пароля из параметров (Jenkins / локально) ===
         String username = System.getProperty("test.user");
@@ -95,12 +85,6 @@ public class BaseTest {
             options.addArguments("--disable-gpu");
             options.addArguments("--window-size=1920,1080");
             options.setAcceptInsecureCerts(true);
-            options.setCapability("unhandledPromptBehavior", "ignore");
-            Configuration.browserCapabilities = options;
-
-        } else if (currentBrowser.contains("safari")) {
-            SafariOptions options = new SafariOptions();
-            options.setCapability("acceptInsecureCerts", true);
             options.setCapability("unhandledPromptBehavior", "ignore");
             Configuration.browserCapabilities = options;
 

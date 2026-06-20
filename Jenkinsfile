@@ -7,7 +7,7 @@ pipeline {
 
     parameters {
         // Выбор браузера
-        choice(choices: ['chrome', 'firefox', 'edge', 'safari'], name: 'BROWSER', description: 'Выберите браузер для тестирования')
+        choice(choices: ['chrome', 'firefox', 'edge'], name: 'BROWSER', description: 'Выберите браузер для тестирования')
 
         // Строковый параметр для логина
         string(name: 'TEST_USER', defaultValue: 'user@pflb.ru', description: 'Логин (email) для авторизации в тестах')
