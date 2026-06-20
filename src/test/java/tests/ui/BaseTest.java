@@ -61,29 +61,41 @@ public class BaseTest {
 
         logger.info("Используется пользователь для тестов: " + testUsername);
 
-        ChromeOptions options = new ChromeOptions();
+        // === ИСПРАВЛЕНИЕ: Динамическая настройка опций браузера ===
+        org.openqa.selenium.MutableCapabilities options;
 
-        if (isHeadless) {
-            options.addArguments("--headless=new");
+        if ("firefox".equalsIgnoreCase(Configuration.browser)) {
+            org.openqa.selenium.firefox.FirefoxOptions fxOptions = new org.openqa.selenium.firefox.FirefoxOptions();
+            if (isHeadless) {
+                fxOptions.addArguments("-headless");
+            }
+            fxOptions.addArguments("--window-size=1920,1080");
+            options = fxOptions;
+        } else {
+            // Для chrome, edge и других по умолчанию используем ChromeOptions
+            ChromeOptions chOptions = new ChromeOptions();
+            if (isHeadless) {
+                chOptions.addArguments("--headless=new");
+            }
+            chOptions.addArguments("--no-sandbox");
+            chOptions.addArguments("--disable-dev-shm-usage");
+            chOptions.addArguments("--disable-gpu");
+            chOptions.addArguments("--disable-extensions");
+            chOptions.addArguments("--disable-setuid-sandbox");
+            chOptions.addArguments("--disable-crash-reporter");
+            chOptions.addArguments("--disable-notifications");
+            chOptions.addArguments("--disable-blink-features=AutomationControlled");
+            chOptions.addArguments("--window-size=1920,1080");
+            options = chOptions;
         }
 
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--disable-setuid-sandbox");
-        options.addArguments("--disable-crash-reporter");
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-blink-features=AutomationControlled");
-        options.addArguments("--window-size=1920,1080");
-
-        // Дополнительные полезные настройки
-        options.setAcceptInsecureCerts(true);
+        // Общие настройки для всех браузеров
+        options.setCapability("acceptInsecureCerts", true);
 
         Configuration.browserCapabilities = options;
-        Configuration.browserSize = "1920x1080"; // оставляем для совместимости
+        Configuration.browserSize = "1920x1080";
 
-        logger.info("Selenide настроен. Headless = " + isHeadless);
+        logger.info("Selenide настроен. Браузер = " + Configuration.browser + ", Headless = " + isHeadless);
     }
 
     @BeforeMethod
