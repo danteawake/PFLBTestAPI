@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.safari.SafariOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import pages.*;
@@ -25,6 +24,8 @@ public class BaseTest {
     protected UsersReadAllPage usersReadAllPage;
     protected UsersReadUserWithCar usersReadUserWithCar;
     protected AllPostPage allPostPage;
+    protected UserAddMoneyPage userAddMoneyPage;
+    protected CreateUserPage createUserPage;
     protected AllDeletePage allDeletePage;
 
     @BeforeClass
@@ -117,6 +118,8 @@ public class BaseTest {
         usersReadAllPage = new UsersReadAllPage();
         usersReadUserWithCar = new UsersReadUserWithCar();
         allPostPage = new AllPostPage();
+        userAddMoneyPage = new UserAddMoneyPage();
+        createUserPage = new CreateUserPage();
         allDeletePage = new AllDeletePage();
     }
 }
