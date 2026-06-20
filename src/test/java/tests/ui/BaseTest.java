@@ -2,13 +2,13 @@ package tests.ui;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import dto.User;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-
 import pages.AllPostPage;
 import pages.LoginPage;
 import pages.UsersReadAllPage;
@@ -17,6 +17,10 @@ import pages.UsersReadUserWithCar;
 public class BaseTest {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
+
+    // === Добавили эти две статические переменные ===
+    protected static String testUsername;
+    protected static String testPassword;
 
     protected LoginPage loginPage;
     protected UsersReadAllPage usersReadAllPage;
@@ -35,6 +39,23 @@ public class BaseTest {
         // Управляем headless через системное свойство из Jenkins
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         Configuration.headless = isHeadless;
+
+        // === Чтение логина и пароля из параметров (Jenkins / локально) ===
+        String username = System.getProperty("test.user");
+        String password = System.getProperty("test.password");
+
+        // Если параметры не переданы — используем дефолт из DTO
+        if (username == null || username.isEmpty()) {
+            username = User.userStandard().getUsername();
+        }
+        if (password == null || password.isEmpty()) {
+            password = User.userStandard().getPassword();
+        }
+
+        testUsername = username;
+        testPassword = password;
+
+        logger.info("Используется пользователь для тестов: " + testUsername);
 
         ChromeOptions options = new ChromeOptions();
 

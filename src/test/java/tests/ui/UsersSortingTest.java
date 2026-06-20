@@ -7,9 +7,7 @@ public class UsersSortingTest extends BaseTest {
 
     @Test //для тестирования работы методов
     public void sortingTest() {
-        loginPage.openPage().login(
-                User.userStandard().getUsername(),
-                User.userStandard().getPassword());
+        loginPage.openPage().login(testUsername,testPassword);
         usersReadAllPage.openPage()
                 .sortFilterButtonClick("Age")
                 .checkSortDirectionSign("Age", "↑")

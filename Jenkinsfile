@@ -6,6 +6,11 @@ pipeline {
         maven "maven 3.9.6"
     }
 
+    environment {
+            TEST_USER     = 'user@pflb.ru'
+            TEST_PASSWORD = 'user'
+    }
+
     parameters{
         choice(choices: ['chrome', 'firefox', 'edge', 'safari'], name: 'BROWSER')
     }
@@ -17,7 +22,10 @@ pipeline {
                 git 'https://github.com/danteawake/PFLBTestAPI.git'
 
                 // Run Maven on a Unix agent.
-                sh "mvn clean test -Dheadless=true -Dbrowser=${params.BROWSER}"
+                sh "mvn clean test -Dheadless=true \
+                 -Dbrowser=${params.BROWSER} \
+                 -Dtest.user=${TEST_USER} \
+                 -Dtest.password=${TEST_PASSWORD}"
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"

@@ -26,7 +26,7 @@ public class LoginPage extends BasePage {
 
     @Step("Авторизоваться с почтой: {email} и паролем: {password}")
     public LoginPage login(String email, String password) {
-        log.info("Авторизация с почтой: {} и паролем: {}", email, password);
+        log.info("Авторизация с почтой: {} и паролем: [HIDDEN]", email);
         emailInput.setValue(email);
         passwordInput.setValue(password);
         signInButton.click();
