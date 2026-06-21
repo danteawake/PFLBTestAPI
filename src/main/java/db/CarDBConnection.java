@@ -20,6 +20,25 @@ public class CarDBConnection extends BaseDBConnection {
         }
     }
 
+    public int selectCreatedCar(int carId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select count(id)\n" +
+                    "from car c \n" +
+                    "where id=?");
+            preparedStatement.setInt(1, carId);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            preparedStatement.close();
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public String selectUpdated(int carIdUpdated) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT type_name\n" +
