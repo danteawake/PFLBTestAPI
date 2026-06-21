@@ -106,7 +106,6 @@ public class CarsReadAll extends BasePage {
     public CarsReadAll checkSortingByPrice() {
         log.info("Начинаем проверку сортировки ASC по Price");
         ElementsCollection initCollectionString = $$(SORT_BUTTON_PRICE); //Получили текстовую коллекцию
-        System.out.println(initCollectionString.texts());
         List<BigDecimal> initCollectionInt = initCollectionString.texts().stream()//Перевели стринговую  в числовую коллекцию
                 .map(s -> s.replaceAll("[^\\d.-]", "")) // Чистим всё лишнее
                 .filter(s -> !s.isBlank())

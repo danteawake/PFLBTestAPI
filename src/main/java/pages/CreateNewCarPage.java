@@ -1,11 +1,11 @@
 package pages;
 
 import adapters.CarAdapter;
+import com.codeborne.selenide.SelenideElement;
 import dto.Car;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
-import wrappers.DropDown;
 import wrappers.InputCar;
 
 import java.util.regex.Matcher;
@@ -29,7 +29,6 @@ public class CreateNewCarPage extends BasePage {
         $(byText("ID will be generated")).should(visible);
         $x(PUSH_TO_API_BUTTON).should(clickable);//Кнопка --PUSH TO API
         String status = $x(STATUS_BUTTON).getText(); //плашка Status not pushed
-        System.out.println(status);
         Assert.assertEquals(status, "Status: not pushed");
         log.info("Открыта страница создания автомобиля");
         return this;
@@ -49,7 +48,6 @@ public class CreateNewCarPage extends BasePage {
         $x(PUSH_TO_API_BUTTON).click();
         sleep(3000);
         String status = $x(STATUS_BUTTON).getText(); //плашка Status not pushed
-        System.out.println(status);
         Assert.assertEquals(status, "Status: Successfully pushed, code: 201");
         String resultStr = $x(RESULT_BUTTON).getText();
         //Достаем значение ID из полученной строки
