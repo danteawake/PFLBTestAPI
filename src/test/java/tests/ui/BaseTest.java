@@ -23,6 +23,8 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected UsersReadAllPage usersReadAllPage;
     protected UsersReadUserWithCar usersReadUserWithCar;
+    protected CarsReadAll carReaAll;
+    protected CreateNewCarPage createNewCarPage;
     protected AllPostPage allPostPage;
     protected UserAddMoneyPage userAddMoneyPage;
     protected CreateUserPage createUserPage;
@@ -117,6 +119,8 @@ public class BaseTest {
         loginPage = new LoginPage();
         usersReadAllPage = new UsersReadAllPage();
         usersReadUserWithCar = new UsersReadUserWithCar();
+        carReaAll = new CarsReadAll();
+        createNewCarPage = new CreateNewCarPage();
         allPostPage = new AllPostPage();
         userAddMoneyPage = new UserAddMoneyPage();
         createUserPage = new CreateUserPage();
