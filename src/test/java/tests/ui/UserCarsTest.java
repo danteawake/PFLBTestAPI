@@ -10,8 +10,7 @@ import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
 
-    // ============ ХЕЛПЕР-МЕТОДЫ ============
-
+    // Создание тестового пользователя
     private int createTestUser(String firstName, String lastName, int age, String sex, int money) {
         createUserPage.openPage();
         Selenide.sleep(500);
@@ -23,14 +22,12 @@ public class UserCarsTest extends BaseTest {
                 .getCreatedUserId();
     }
 
+    // Создание тестового автомобиля
     private int createTestCar(String engineType, String mark, String model, double price) {
         Car car = new Car(engineType, mark, model, price);
         return createNewCarPage.openCreateNewCarPage()
                 .addNewCar(car);
     }
-
-
-    // ============ ТЕСТЫ ============
 
     @Test(priority = 1,
             description = "4. Покупка машины с достаточным балансом")
@@ -101,7 +98,7 @@ public class UserCarsTest extends BaseTest {
 
         userCarsPage.openPage()
                 .sellCar(userId, carId)
-                // ⚠️ Ожидаем 404. Если тест упадет с 200 — это БАГ!
+                // Ожидаем 404. Если тест упадет с 200 — это БАГ!
                 .checkStatus("404");
     }
 }
