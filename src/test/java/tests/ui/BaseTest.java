@@ -29,6 +29,7 @@ public class BaseTest {
     protected UserAddMoneyPage userAddMoneyPage;
     protected CreateUserPage createUserPage;
     protected AllDeletePage allDeletePage;
+    protected UserCarsPage userCarsPage;
 
     @BeforeClass
     public void setUp() {  // Убрали static
@@ -125,5 +126,6 @@ public class BaseTest {
         userAddMoneyPage = new UserAddMoneyPage();
         createUserPage = new CreateUserPage();
         allDeletePage = new AllDeletePage();
+        userCarsPage = new UserCarsPage();
     }
 }
