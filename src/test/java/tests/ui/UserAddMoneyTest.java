@@ -8,12 +8,13 @@ import org.testng.annotations.Test;
 
 public class UserAddMoneyTest extends BaseTest {
 
-    @Test(description = "Проверка добавления денег пользователю (положительная сумма)")
+    @Test(priority = 1,
+            description = "1. Проверка добавления денег пользователю (положительная сумма)")
     @Description("Пользователь добавляет положительную сумму, баланс увеличивается")
     @Feature("Users")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddPositiveMoney() {
+    public void addPositiveMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
         int userId = createUserPage.openPage()
@@ -26,12 +27,13 @@ public class UserAddMoneyTest extends BaseTest {
                 .checkStatus("code: 200");
     }
 
-    @Test(description = "Проверка добавления отрицательной суммы")
+    @Test(priority = 2,
+            description = "2. Проверка добавления отрицательной суммы")
     @Description("Пользователь пытается добавить отрицательную сумму — ошибка")
     @Feature("Users")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddNegativeMoney() {
+    public void addNegativeMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
         int userId = createUserPage.openPage()
@@ -44,12 +46,13 @@ public class UserAddMoneyTest extends BaseTest {
                 .checkStatus("Incorrect input data");
     }
 
-    @Test(description = "Проверка добавления нулевой суммы")
+    @Test(priority = 3,
+            description = "3. Проверка добавления нулевой суммы")
     @Description("Пользователь добавляет 0 — ошибка (сервер не принимает 0)")
     @Feature("Users")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddZeroMoney() {
+    public void addZeroMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
         int userId = createUserPage.openPage()
