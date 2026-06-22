@@ -11,7 +11,6 @@ import static com.codeborne.selenide.Selenide.open;
 @Log4j2
 public class CreateUserPage extends BasePage {
 
-    // Локаторы
     private final SelenideElement firstNameInput = $("#first_name_send");
     private final SelenideElement lastNameInput = $("#last_name_send");
     private final SelenideElement ageInput = $("#age_send");

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Якушин Андрей - UI тесты">
+
+    <!-- ✅ Проверки 1-3: Добавление денег -->
+    <test name="Добавление денег (проверки 1-3)">
+        <classes>
+            <class name="tests.ui.UserAddMoneyTest"/>
+        </classes>
+    </test>
+
+    <!-- ✅ Проверки 4-7: Покупка/продажа машин -->
+    <test name="Покупка/продажа машин (проверки 4-7)">
+        <classes>
+            <class name="tests.ui.UserCarsTest"/>
+        </classes>
+    </test>
+
+</suite>
