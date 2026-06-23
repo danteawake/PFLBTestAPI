@@ -1,6 +1,5 @@
 package tests.ui;
 
-import com.codeborne.selenide.Selenide;
 import dto.Car;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -10,19 +9,6 @@ import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
 
-    // Создание тестового пользователя
-    private int createTestUser(String firstName, String lastName, int age, String sex, int money) {
-        createUserPage.openPage();
-        Selenide.sleep(500);
-        return createUserPage.openPage()
-                .createUser(firstName + "_" + System.currentTimeMillis(),
-                        lastName + "_" + System.currentTimeMillis(),
-                        age, sex, money)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
-    }
-
-    // Создание тестового автомобиля
     private int createTestCar(String engineType, String mark, String model, double price) {
         Car car = new Car(engineType, mark, model, price);
         return createNewCarPage.openCreateNewCarPage()
@@ -38,7 +24,7 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithEnoughMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createTestUser("Test", "CarBuyer", 30, "MALE", 10000);
+        int userId = createUserPage.createUser("Test", "CarBuyer", 30, "MALE", 10000);
         int carId = createTestCar("Gasoline", "Tesla", "Model S", 5000.00);
 
         userCarsPage.openPage()
@@ -55,7 +41,7 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithoutMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createTestUser("Test", "PoorUser", 30, "MALE", 100);
+        int userId = createUserPage.createUser("Test", "PoorUser", 30, "MALE", 100);
         int carId = createTestCar("Electric", "Bugatti", "Veyron", 50000.00);
 
         userCarsPage.openPage()
@@ -72,7 +58,7 @@ public class UserCarsTest extends BaseTest {
     public void sellExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createTestUser("Test", "CarSeller", 30, "MALE", 10000);
+        int userId = createUserPage.createUser("Test", "CarSeller", 30, "MALE", 10000);
         int carId = createTestCar("Diesel", "BMW", "X5", 8000.00);
 
         userCarsPage.openPage()
@@ -93,7 +79,7 @@ public class UserCarsTest extends BaseTest {
     public void sellNonExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createTestUser("Test", "NoCarUser", 30, "MALE", 10000);
+        int userId = createUserPage.createUser("Test", "NoCarUser", 30, "MALE", 10000);
         int carId = createTestCar("CNG", "Audi", "A8", 10000.00);
 
         userCarsPage.openPage()
