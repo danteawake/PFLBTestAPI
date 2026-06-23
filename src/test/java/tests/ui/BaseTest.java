@@ -30,6 +30,7 @@ public class BaseTest {
     protected CreateUserPage createUserPage;
     protected AllDeletePage allDeletePage;
     protected UserCarsPage userCarsPage;
+    protected HousePage housePage;
 
     @BeforeClass
     public void setUp() {  // Убрали static
@@ -127,5 +128,6 @@ public class BaseTest {
         createUserPage = new CreateUserPage();
         allDeletePage = new AllDeletePage();
         userCarsPage = new UserCarsPage();
+        housePage = new HousePage();
     }
 }

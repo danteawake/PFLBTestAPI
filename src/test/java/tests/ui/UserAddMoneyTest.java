@@ -17,10 +17,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addPositiveMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
 
         userAddMoneyPage.openPage()
                 .addMoney(userId, 1000)
@@ -36,10 +33,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addNegativeMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
 
         userAddMoneyPage.openPage()
                 .addMoney(userId, -500)
@@ -55,10 +49,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addZeroMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
 
         userAddMoneyPage.openPage()
                 .addMoney(userId, 0)
