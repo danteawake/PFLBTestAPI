@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import dto.AddMoneyData;
 import dto.UserCreateData;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
@@ -29,6 +30,16 @@ public class AllPostPage extends BasePage {
             "/ancestor::table/following-sibling::div//button[contains(@class,'status')]");
     private final SelenideElement newUserIdMessage = $x("//input[@id='first_name_send']" +
             "/ancestor::table/following-sibling::div//button[contains(@class,'newId')]");
+    private final Input addMoneyUserIdInput =
+            new Input($x("(//input[@id='id_send'])[1]"),"User ID");
+    private final Input addMoneyInput = new Input($x("(//input[@id='money_send'])[2]"),
+                    "Money");
+    private final SelenideElement addMoneyPushButton =
+            $x("(//button[contains(@class,'tableButton')])[2]");
+    private final SelenideElement addMoneyStatusMessage =
+            $x("(//button[contains(@class,'status')])[2]");
+    private final SelenideElement newBalanceMessage =
+            $x("(//button[contains(@class,'money')])[1]");
 
     @Step("Открытие страницы All Post")
     public AllPostPage openPage() {
@@ -75,5 +86,35 @@ public class AllPostPage extends BasePage {
         int userId = Integer.parseInt(text.replace("New user ID:", "").trim());
         log.info("Получен ID созданного пользователя: {}", userId);
         return userId;
+    }
+    @Step("Добавляем деньги пользователю")
+    public AllPostPage addMoney(AddMoneyData addMoneyData) {
+        log.info("Добавляем деньги пользователю: {}", addMoneyData);
+        addMoneyUserIdInput.setValue(
+                String.valueOf(addMoneyData.getUserId()));
+        addMoneyInput.setValue(
+                String.valueOf(addMoneyData.getMoney()));
+        addMoneyPushButton.click();
+        log.info("Кнопка PUSH TO API нажата");
+        return this;
+    }
+    @Step("Получаем статус добавления денег")
+    public String getAddMoneyStatusMessage() {
+        addMoneyStatusMessage.shouldNotHave(text("not pushed"));
+        String status = addMoneyStatusMessage.getText();
+        log.info("Получен статус: {}", status);
+        return status;
+    }
+    @Step("Получаем текущий баланс пользователя")
+    public double getCurrentMoney() {
+        String text = newBalanceMessage.shouldBe(visible).getText();
+        log.info("Получен баланс пользователя: {}", text);
+        return Double.parseDouble(text.trim());
+    }
+    @Step("Получаем новый баланс пользователя")
+    public String getNewBalanceMessage() {
+        String balance = newBalanceMessage.getText();
+        log.info("Получен новый баланс: {}", balance);
+        return balance;
     }
 }
