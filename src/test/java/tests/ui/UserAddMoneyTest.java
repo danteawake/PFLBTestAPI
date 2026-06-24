@@ -1,5 +1,6 @@
 package tests.ui;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -8,8 +9,9 @@ import org.testng.annotations.Test;
 
 public class UserAddMoneyTest extends BaseTest {
 
-    @Test(priority = 1,
-            description = "1. Проверка добавления денег пользователю (положительная сумма)")
+    private static final Faker faker = new Faker();
+
+    @Test(priority = 1, description = "1. Добавление денег (положительная сумма)")
     @Description("Пользователь добавляет положительную сумму, баланс увеличивается")
     @Feature("Users")
     @Story("Добавление денег")
@@ -17,15 +19,17 @@ public class UserAddMoneyTest extends BaseTest {
     public void addPositiveMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
 
-        userAddMoneyPage.openPage()
+        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, 1000)
                 .checkStatus("code: 200");
     }
 
-    @Test(priority = 2,
-            description = "2. Проверка добавления отрицательной суммы")
+    @Test(priority = 2, description = "2. Добавление отрицательной суммы")
     @Description("Пользователь пытается добавить отрицательную сумму — ошибка")
     @Feature("Users")
     @Story("Добавление денег")
@@ -33,15 +37,17 @@ public class UserAddMoneyTest extends BaseTest {
     public void addNegativeMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
 
-        userAddMoneyPage.openPage()
+        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, -500)
                 .checkStatus("Incorrect input data");
     }
 
-    @Test(priority = 3,
-            description = "3. Проверка добавления нулевой суммы")
+    @Test(priority = 3, description = "3. Добавление нулевой суммы")
     @Description("Пользователь добавляет 0 — ошибка (сервер не принимает 0)")
     @Feature("Users")
     @Story("Добавление денег")
@@ -49,9 +55,12 @@ public class UserAddMoneyTest extends BaseTest {
     public void addZeroMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "User", 25, "MALE", 100);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
 
-        userAddMoneyPage.openPage()
+        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, 0)
                 .checkStatus("Incorrect input data");
     }

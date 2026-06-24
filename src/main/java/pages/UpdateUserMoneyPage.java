@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 @Log4j2
-public class UserAddMoneyPage extends BasePage {
+public class UpdateUserMoneyPage extends BasePage {
 
     private final SelenideElement userIdInput = $("#id_send");
     private final SelenideElement moneyInput = $("#money_send");
@@ -17,7 +17,7 @@ public class UserAddMoneyPage extends BasePage {
     private final SelenideElement statusButton = $("button.status");
 
     @Step("Открыть страницу добавления денег")
-    public UserAddMoneyPage openPage() {
+    public UpdateUserMoneyPage openPage() {
         log.info("Открытие страницы добавления денег");
         open("#/update/users/plusMoney");
         userIdInput.shouldBe(visible);
@@ -25,7 +25,7 @@ public class UserAddMoneyPage extends BasePage {
     }
 
     @Step("Добавить пользователю {userId} сумму {amount}")
-    public UserAddMoneyPage addMoney(int userId, int amount) {
+    public UpdateUserMoneyPage addMoney(int userId, int amount) {
         log.info("Добавление {} денег пользователю {}", amount, userId);
         userIdInput.setValue(String.valueOf(userId));
         moneyInput.setValue(String.valueOf(amount));
@@ -35,7 +35,7 @@ public class UserAddMoneyPage extends BasePage {
     }
 
     @Step("Проверить статус добавления денег: {expectedText}")
-    public UserAddMoneyPage checkStatus(String expectedText) {
+    public UpdateUserMoneyPage checkStatus(String expectedText) {
         statusButton.shouldBe(visible);
         statusButton.shouldHave(com.codeborne.selenide.Condition.text(expectedText));
         log.info("Статус добавления проверен: {}", statusButton.getText());

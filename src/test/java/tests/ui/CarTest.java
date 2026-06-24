@@ -4,11 +4,9 @@ import adapters.CarAdapter;
 import db.CarDBConnection;
 import dto.Car;
 import dto.User;
-import jdk.jfr.Enabled;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.CreateNewCarPage;
 
 import static org.testng.AssertJUnit.assertEquals;
 

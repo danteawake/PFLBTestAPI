@@ -19,9 +19,9 @@ public class UserHouseTest extends BaseTest {
 
         int userId = createUserPage.createUser("Test", "Settler", 30, "MALE", 10000);
 
-        int houseId = housePage.createHouse(2, 100000.0);
+        int houseId = createHousePage.createHouse(2, 100000.0);
 
-        housePage.openSettleOrEvictPage()
+        updateUserHousePage.openPage()
                 .settleUser(userId, houseId)
                 // Ожидаем 200. Если тест упадет с 406 — это БАГ!
                 .checkStatus("code: 200");
@@ -40,13 +40,13 @@ public class UserHouseTest extends BaseTest {
         loginPage.openPage().login(testUsername, testPassword);
 
         int userId = createUserPage.createUser("Test", "Evictee", 30, "MALE", 10000);
-        int houseId = housePage.createHouse(2, 100000.0);
+        int houseId = createHousePage.createHouse(2, 100000.0);
 
-        housePage.openSettleOrEvictPage()
+        updateUserHousePage.openPage()
                 .settleUser(userId, houseId)
                 .checkStatus("code: 200");
 
-        housePage.openSettleOrEvictPage()
+        updateUserHousePage.openPage()
                 .evictUser(userId, houseId)
                 .checkStatus("code: 200");
 
