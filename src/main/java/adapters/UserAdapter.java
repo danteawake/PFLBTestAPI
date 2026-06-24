@@ -39,9 +39,8 @@ public class UserAdapter extends BaseAdapter {
                 .as(UserResponse.class);
     }
 
-    public static void addMoney(int userId, double amount) {
-
-        given()
+    public static UserResponse addMoney(int userId, double amount) {
+        return given()
                 .spec(spec)
                 .header("Authorization", token)
                 .pathParam("userId", userId)
@@ -49,6 +48,8 @@ public class UserAdapter extends BaseAdapter {
                 .when()
                 .post("/user/{userId}/money/{amount}")
                 .then()
-                .spec(ok200);
+                .spec(ok200)
+                .extract()
+                .as(UserResponse.class);
     }
 }

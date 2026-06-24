@@ -1,11 +1,15 @@
 package adapters;
 
 import com.google.gson.Gson;
-import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.response.Response;
 import models.positive.CarRequest;
 import models.positive.CarRequestUpdate;
 import models.positive.CarResponse;
+import org.testng.Assert;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -67,5 +71,50 @@ public class CarAdapter extends BaseAdapter {
                 .delete("/car/{carId}")
                 .then()
                 .spec(ok204);
+    }
+
+    public static void buyCar(int userId, int carId) {
+        given()
+                .spec(spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .when()
+                .post("/user/{userId}/buyCar/{carId}")
+                .then()
+                .spec(ok200);
+    }
+
+    public static void sellCar(int userId, int carId) {
+        given()
+                .spec(spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .spec(ok200);
+    }
+
+    public static List<CarResponse> getUserCars(int userId) {
+        Response response = given()
+                .spec(spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .when()
+                .get("/user/{userId}/cars");
+
+        int statusCode = response.statusCode();
+
+        // Проверяем, что статус 200, любой другой статус — это баг!
+        Assert.assertEquals(
+                statusCode,
+                200,
+                "БАГ! GET /user/{userId}/cars вернул статус " + statusCode +
+                        ", хотя должен быть 200 OK"
+        );
+
+        return Arrays.asList(response.as(CarResponse[].class));
     }
 }
