@@ -1,6 +1,7 @@
 package adapters;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Step;
 import models.positive.UserRequest;
 import models.positive.UserResponse;
 
@@ -39,6 +40,7 @@ public class UserAdapter extends BaseAdapter {
                 .as(UserResponse.class);
     }
 
+    @Step("Добавить {amount} денег пользователю {userId}")
     public static UserResponse addMoney(int userId, double amount) {
         return given()
                 .spec(spec)
