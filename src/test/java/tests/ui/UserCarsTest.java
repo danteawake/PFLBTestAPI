@@ -1,5 +1,6 @@
 package tests.ui;
 
+import com.github.javafaker.Faker;
 import dto.Car;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -8,6 +9,8 @@ import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
+
+    private static final Faker faker = new Faker();
 
     private int createTestCar(String engineType, String mark, String model, double price) {
         Car car = new Car(engineType, mark, model, price);
@@ -24,10 +27,13 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithEnoughMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "CarBuyer", 30, "MALE", 10000);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+
+        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
         int carId = createTestCar("Gasoline", "Tesla", "Model S", 5000.00);
 
-        userCarsPage.openPage()
+        updateUserCarPage.openPage()
                 .buyCar(userId, carId)
                 .checkStatus("code: 200");
     }
@@ -41,10 +47,13 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithoutMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "PoorUser", 30, "MALE", 100);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+
+        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 100);
         int carId = createTestCar("Electric", "Bugatti", "Veyron", 50000.00);
 
-        userCarsPage.openPage()
+        updateUserCarPage.openPage()
                 .buyCar(userId, carId)
                 .checkStatus("406");
     }
@@ -58,14 +67,17 @@ public class UserCarsTest extends BaseTest {
     public void sellExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "CarSeller", 30, "MALE", 10000);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+
+        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
         int carId = createTestCar("Diesel", "BMW", "X5", 8000.00);
 
-        userCarsPage.openPage()
+        updateUserCarPage.openPage()
                 .buyCar(userId, carId)
                 .checkStatus("code: 200");
 
-        userCarsPage.openPage()
+        updateUserCarPage.openPage()
                 .sellCar(userId, carId)
                 .checkStatus("code: 200");
     }
@@ -79,10 +91,13 @@ public class UserCarsTest extends BaseTest {
     public void sellNonExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.createUser("Test", "NoCarUser", 30, "MALE", 10000);
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+        
+        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
         int carId = createTestCar("CNG", "Audi", "A8", 10000.00);
 
-        userCarsPage.openPage()
+        updateUserCarPage.openPage()
                 .sellCar(userId, carId)
                 // Ожидаем 404. Если тест упадет с 200 — это БАГ!
                 .checkStatus("404");

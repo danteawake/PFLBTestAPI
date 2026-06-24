@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.sleep;
 
 @Log4j2
-public class UserCarsPage extends BasePage {
+public class UpdateUserCarPage extends BasePage {
 
     private final SelenideElement userIdInput = $x("//input[@id='id_send']");
     private final SelenideElement carIdInput = $x("//input[@id='car_send']");
@@ -19,7 +19,7 @@ public class UserCarsPage extends BasePage {
     private final SelenideElement statusButton = $x("//button[contains(@class,'status')]");
 
     @Step("Открыть страницу Users -> Buy or sell car")
-    public UserCarsPage openPage() {
+    public UpdateUserCarPage openPage() {
         log.info("Открытие страницы Users -> Buy or sell car");
         usersBuyOrSellCarTab.selectItem();
         userIdInput.shouldBe(visible);
@@ -27,7 +27,7 @@ public class UserCarsPage extends BasePage {
     }
 
     @Step("Купить машину с ID {carId} для пользователя {userId}")
-    public UserCarsPage buyCar(int userId, int carId) {
+    public UpdateUserCarPage buyCar(int userId, int carId) {
         log.info("Покупка машины (ID: {}) для пользователя {}", carId, userId);
 
         // Вводим ID пользователя и машины
@@ -47,7 +47,7 @@ public class UserCarsPage extends BasePage {
     }
 
     @Step("Продать машину с ID {carId} у пользователя {userId}")
-    public UserCarsPage sellCar(int userId, int carId) {
+    public UpdateUserCarPage sellCar(int userId, int carId) {
         log.info("Продажа машины (ID: {}) у пользователя {}", carId, userId);
 
         // Вводим ID пользователя и машины
@@ -67,7 +67,7 @@ public class UserCarsPage extends BasePage {
     }
 
     @Step("Проверить статус: {expectedText}")
-    public UserCarsPage checkStatus(String expectedText) {
+    public UpdateUserCarPage checkStatus(String expectedText) {
         statusButton.shouldBe(visible);
         statusButton.shouldHave(com.codeborne.selenide.Condition.text(expectedText));
         log.info("Статус проверен: {}", statusButton.getText());
