@@ -13,7 +13,7 @@ public class UserAddMoneyTest extends BaseTest {
 
     @Test(priority = 1, description = "1. Добавление денег (положительная сумма)")
     @Description("Пользователь добавляет положительную сумму, баланс увеличивается")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
     public void addPositiveMoney() {
@@ -31,7 +31,7 @@ public class UserAddMoneyTest extends BaseTest {
 
     @Test(priority = 2, description = "2. Добавление отрицательной суммы")
     @Description("Пользователь пытается добавить отрицательную сумму — ошибка")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
     public void addNegativeMoney() {
@@ -49,7 +49,7 @@ public class UserAddMoneyTest extends BaseTest {
 
     @Test(priority = 3, description = "3. Добавление нулевой суммы")
     @Description("Пользователь добавляет 0 — ошибка (сервер не принимает 0)")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
     public void addZeroMoney() {
