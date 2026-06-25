@@ -26,6 +26,7 @@ public class UserAdapter extends BaseAdapter {
                 .as(UserResponse.class);
     }
 
+    @Step("Получить пользователя с ID {userId}")
     public static UserResponse getUser(int userId) {
 
         return given()
