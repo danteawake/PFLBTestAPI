@@ -1,11 +1,16 @@
 package adapters;
 
 import com.google.gson.Gson;
-import io.restassured.http.ContentType;
+import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.response.Response;
 import models.positive.CarRequest;
 import models.positive.CarRequestUpdate;
 import models.positive.CarResponse;
+import org.testng.Assert;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -67,5 +72,52 @@ public class CarAdapter extends BaseAdapter {
                 .delete("/car/{carId}")
                 .then()
                 .spec(ok204);
+    }
+
+    @Step("Купить машину с ID {carId} для пользователя {userId}")
+    public static void buyCar(int userId, int carId) {
+        given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .when()
+                .post("/user/{userId}/buyCar/{carId}")
+                .then()
+                .spec(BaseAdapter.ok200);
+    }
+
+    @Step("Продать машину с ID {carId} у пользователя {userId}")
+    public static void sellCar(int userId, int carId) {
+        given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .spec(BaseAdapter.ok200);
+    }
+
+    @Step("Получить список машин пользователя {userId}")
+    public static List<CarResponse> getUserCars(int userId) {
+        Response response = given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", token)
+                .pathParam("userId", userId)
+                .when()
+                .get("/user/{userId}/cars");
+
+        int statusCode = response.statusCode();
+
+        Assert.assertEquals(
+                statusCode,
+                200,
+                "БАГ! GET /user/{userId}/cars вернул статус " + statusCode +
+                        ", хотя должен быть 200 OK"
+        );
+
+        return Arrays.asList(response.as(CarResponse[].class));
     }
 }

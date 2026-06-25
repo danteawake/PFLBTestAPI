@@ -2,10 +2,7 @@ package tests.ui;
 
 import com.github.javafaker.Faker;
 import dto.Car;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
@@ -21,7 +18,7 @@ public class UserCarsTest extends BaseTest {
     @Test(priority = 1,
             description = "4. Покупка машины с достаточным балансом")
     @Description("Пользователь с достаточным балансом покупает машину")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Покупка машины")
     @Owner("Якушин Андрей")
     public void buyCarWithEnoughMoney() {
@@ -41,7 +38,7 @@ public class UserCarsTest extends BaseTest {
     @Test(priority = 2,
             description = "5. Покупка машины с недостаточным балансом")
     @Description("Пользователь с недостаточным балансом не может купить машину")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Покупка машины")
     @Owner("Якушин Андрей")
     public void buyCarWithoutMoney() {
@@ -61,7 +58,7 @@ public class UserCarsTest extends BaseTest {
     @Test(priority = 3,
             description = "6. Продажа машины, которая есть у пользователя")
     @Description("Пользователь продаёт машину, баланс увеличивается")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Продажа машины")
     @Owner("Якушин Андрей")
     public void sellExistingCar() {
@@ -83,17 +80,19 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 4,
-            description = "7. Продажа машины, которой нет у пользователя")
+            description = "7. Продажа машины, которой нет у пользователя",
+            groups = {"bug"})
     @Description("Пользователь пытается продать машину, которой у него нет")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Продажа машины")
     @Owner("Якушин Андрей")
+    @Issue("BUG. Ожидаем 404. Возвращается 200")
     public void sellNonExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-        
+
         int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
         int carId = createTestCar("CNG", "Audi", "A8", 10000.00);
 

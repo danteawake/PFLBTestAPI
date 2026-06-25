@@ -11,7 +11,7 @@ public class UserHouseTest extends BaseTest {
     @Test(priority = 1,
             description = "8. Заселение пользователя в свободный дом")
     @Description("Пользователь заселяется в свободный дом")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Заселение в дом")
     @Owner("Якушин Андрей")
     public void settleUserToFreeHouse() {
@@ -19,7 +19,7 @@ public class UserHouseTest extends BaseTest {
 
         int userId = createUserPage.createUser("Test", "Settler", 30, "MALE", 10000);
 
-        int houseId = createHousePage.createHouse(2, 100000.0);
+        int houseId = createHousePage.createHouse(2, 5000.0);
 
         updateUserHousePage.openPage()
                 .settleUser(userId, houseId)
@@ -33,7 +33,7 @@ public class UserHouseTest extends BaseTest {
             enabled = false,// ← отключен временно
             description = "9. Выселение пользователя из дома")
     @Description("Пользователь выселяется из дома")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Выселение из дома")
     @Owner("Якушин Андрей")
     public void evictUserFromHouse() {
