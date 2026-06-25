@@ -19,7 +19,7 @@ public class UserHouseTest extends BaseTest {
 
         int userId = createUserPage.createUser("Test", "Settler", 30, "MALE", 10000);
 
-        int houseId = createHousePage.createHouse(2, 100000.0);
+        int houseId = createHousePage.createHouse(2, 5000.0);
 
         updateUserHousePage.openPage()
                 .settleUser(userId, houseId)

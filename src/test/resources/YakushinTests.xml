@@ -23,4 +23,11 @@
         </classes>
     </test>
 
+    <!-- Проверки 10-12: API-тесты -->
+    <test name="API: Проверки 10-12">
+        <classes>
+            <class name="tests.api.UserAPITest"/>
+        </classes>
+    </test>
+
 </suite>

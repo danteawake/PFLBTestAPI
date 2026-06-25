@@ -43,14 +43,14 @@ public class UserAdapter extends BaseAdapter {
     @Step("Добавить {amount} денег пользователю {userId}")
     public static UserResponse addMoney(int userId, double amount) {
         return given()
-                .spec(spec)
+                .spec(BaseAdapter.spec)
                 .header("Authorization", token)
                 .pathParam("userId", userId)
                 .pathParam("amount", amount)
                 .when()
                 .post("/user/{userId}/money/{amount}")
                 .then()
-                .spec(ok200)
+                .spec(BaseAdapter.ok200)
                 .extract()
                 .as(UserResponse.class);
     }

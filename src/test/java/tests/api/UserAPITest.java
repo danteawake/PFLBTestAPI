@@ -1,16 +1,11 @@
 package tests.api;
 
 import adapters.CarAdapter;
+import adapters.HouseAdapter;
 import adapters.UserAdapter;
 import com.github.javafaker.Faker;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Story;
-import models.positive.CarRequest;
-import models.positive.CarResponse;
-import models.positive.UserRequest;
-import models.positive.UserResponse;
+import io.qameta.allure.*;
+import models.positive.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -55,11 +50,13 @@ public class UserAPITest {
     }
 
     @Test(priority = 2,
-            description = "11. POST /user/{userId}/sellCar/{carId} — продажа машины, статус 200")
+            description = "11. POST /user/{userId}/sellCar/{carId} — продажа машины, статус 200",
+            groups = {"bug"})
     @Description("Проверка успешной продажи машины через API")
     @Feature("Users API")
     @Story("Продажа машины")
     @Owner("Якушин Андрей")
+    @Issue("BUG. GET /user/{userId}/cars возвращает 204 вместо 200")
     public void checkSellCar() {
         // 1. Создаём пользователя
         String firstName = faker.name().firstName();
@@ -75,7 +72,7 @@ public class UserAPITest {
 
         UserResponse createdUser = UserAdapter.createUser(userRequest);
         int userId = createdUser.id;
-        System.out.println("✅ Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
+        System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
         // 2. Создаём машину
         CarRequest carRequest = CarRequest.builder()
@@ -87,17 +84,19 @@ public class UserAPITest {
 
         CarResponse createdCar = CarAdapter.createCar(carRequest);
         int carId = createdCar.id;
-        System.out.println("✅ Создана машина ID: " + carId + ", цена: " + createdCar.price);
+        System.out.println("Создана машина ID: " + carId + ", цена: " + createdCar.price);
 
         // 3. Покупаем машину (предусловие)
         CarAdapter.buyCar(userId, carId);
-        System.out.println("✅ Машина куплена пользователем");
+        System.out.println("Машина с ID: " + carId + " куплена пользователем " + userId);
 
         // 4. Продаём машину (ПРОВЕРЯЕМ ЭНДПОИНТ)
         CarAdapter.sellCar(userId, carId);
-        System.out.println("✅ Машина продана — статус 200 OK");
+        System.out.println("Машина с ID: " + carId + " продана — статус 200 OK");
 
         // 5. Проверяем, что машина больше не привязана к пользователю
+        // БАГ! GET /user/{userId}/cars возвращает 204 вместо 200
+        // Если тест упадёт — это ожидаемый баг, а не ошибка теста
         List<CarResponse> userCars = CarAdapter.getUserCars(userId);
 
         boolean carFound = userCars.stream()
@@ -105,6 +104,41 @@ public class UserAPITest {
 
         Assert.assertFalse(carFound, "Машина " + carId + " всё ещё привязана к пользователю " + userId);
 
-        System.out.println("✅ Проверка пройдена: машина удалена из списка пользователя");
+        System.out.println("Проверка пройдена: машина удалена из списка пользователя");
+    }
+
+    @Test(priority = 3,
+            description = "12. POST /house/{houseId}/settle/{userId} — заселение в дом, статус 200")
+    @Description("Проверка успешного заселения пользователя в дом через API")
+    @Feature("Users API")
+    @Story("Заселение в дом")
+    @Owner("Якушин Андрей")
+    public void checkSettleUser() {
+        // 1. Создаём пользователя
+        String firstName = faker.name().firstName();
+        String secondName = faker.name().lastName() + "_" + System.currentTimeMillis();
+
+        UserRequest userRequest = UserRequest.builder()
+                .firstName(firstName)
+                .secondName(secondName)
+                .age(30)
+                .sex("MALE")
+                .money(20000.0)
+                .build();
+
+        UserResponse createdUser = UserAdapter.createUser(userRequest);
+        int userId = createdUser.id;
+        System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
+
+        // 2. Создаём дом
+        int floorCount = 2;
+        double price = 10000.0;
+        HouseResponse createdHouse = HouseAdapter.createHouse(floorCount, price);
+        int houseId = createdHouse.id;
+        System.out.println("Создан дом ID: " + houseId + ", этажность: " + createdHouse.floorCount + ", цена: " + createdHouse.price);
+
+        // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
+        HouseAdapter.settleUser(houseId, userId);
+        System.out.println("Пользователь заселён в дом — статус 200 OK");
     }
 }

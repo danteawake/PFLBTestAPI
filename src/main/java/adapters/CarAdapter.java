@@ -77,33 +77,33 @@ public class CarAdapter extends BaseAdapter {
     @Step("Купить машину с ID {carId} для пользователя {userId}")
     public static void buyCar(int userId, int carId) {
         given()
-                .spec(spec)
+                .spec(BaseAdapter.spec)
                 .header("Authorization", token)
                 .pathParam("userId", userId)
                 .pathParam("carId", carId)
                 .when()
                 .post("/user/{userId}/buyCar/{carId}")
                 .then()
-                .spec(ok200);
+                .spec(BaseAdapter.ok200);
     }
 
     @Step("Продать машину с ID {carId} у пользователя {userId}")
     public static void sellCar(int userId, int carId) {
         given()
-                .spec(spec)
+                .spec(BaseAdapter.spec)
                 .header("Authorization", token)
                 .pathParam("userId", userId)
                 .pathParam("carId", carId)
                 .when()
                 .post("/user/{userId}/sellCar/{carId}")
                 .then()
-                .spec(ok200);
+                .spec(BaseAdapter.ok200);
     }
 
     @Step("Получить список машин пользователя {userId}")
     public static List<CarResponse> getUserCars(int userId) {
         Response response = given()
-                .spec(spec)
+                .spec(BaseAdapter.spec)
                 .header("Authorization", token)
                 .pathParam("userId", userId)
                 .when()
@@ -111,7 +111,6 @@ public class CarAdapter extends BaseAdapter {
 
         int statusCode = response.statusCode();
 
-        // Проверяем, что статус 200, любой другой статус — это баг!
         Assert.assertEquals(
                 statusCode,
                 200,

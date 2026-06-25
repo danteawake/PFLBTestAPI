@@ -2,10 +2,7 @@ package tests.ui;
 
 import com.github.javafaker.Faker;
 import dto.Car;
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
@@ -83,11 +80,13 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 4,
-            description = "7. Продажа машины, которой нет у пользователя")
+            description = "7. Продажа машины, которой нет у пользователя",
+            groups = {"bug"})
     @Description("Пользователь пытается продать машину, которой у него нет")
     @Feature("Users UI")
     @Story("Продажа машины")
     @Owner("Якушин Андрей")
+    @Issue("BUG. Ожидаем 404. Возвращается 200")
     public void sellNonExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
