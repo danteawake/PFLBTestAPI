@@ -28,11 +28,10 @@ public class DeleteCarPositiveTest extends BaseTest {
     @Owner("Konstantin")
     @Description("Проверка удаления автомобиля")
     public void checkDeleteCar() {
-        //создаем автомобиль через api
-        CarDBConnection connection = new CarDBConnection();
-        connection.connect();
-        CarResponse carRs = CarAdapter.createCar(carRq);//Создаем автомобиль
+        //Создаем автомобиль через api
+        CarResponse carRs = CarAdapter.createCar(carRq);
         int carId = carRs.id;
+        log.info("Машина создана. ID = {}", carId);
         //удаляем автомобиль через ui
         loginPage.openPage().login(testUsername, testPassword);
         allDeletePage.openPage()
@@ -41,5 +40,12 @@ public class DeleteCarPositiveTest extends BaseTest {
                 .clickDelete("car");
         Thread.sleep(3000);
         assertEquals("Status: 204", allDeletePage.getStatus("car"));
+        log.info("Машина удалена. ID = {}", carId);
+        //проверяем через БД, что автомобиля действительно нет
+        CarDBConnection connection = new CarDBConnection();
+        connection.connect();
+        assertEquals(0, connection.deleted(carId));
+        log.info("Машина с id {} отсутствует в БД", carId);
+        connection.close();
     }
 }
