@@ -1,45 +1,22 @@
 package db;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Slf4j
-public class UserDBConnection extends BaseDBConnection {
+public class HouseDBConnection extends BaseDBConnection {
 
-    public double getUserBalanceFromDB(int userId) {
-        try {
-            String query = "SELECT money FROM person WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                double balance = rs.getDouble("money");
-                log.info("Баланс пользователя {} в БД: {}", userId, balance);
-                return balance;
-            }
-            log.warn("Пользователь с ID {} не найден в БД", userId);
-            return -1;
-        } catch (SQLException e) {
-            log.error("Ошибка при получении баланса пользователя", e);
-            throw new RuntimeException("Ошибка при получении баланса пользователя", e);
-        }
-    }
-
-    public int deleted(int userId) {
+    public int deleted(int houseId) {
         try {
             // создание объекта PreparedStatement для текущего соединения
-            // запрос считает количество записей в таблице person, id равен переданному значению
+            // запрос считает количество записей в таблице house, id равен переданному значению
             // используем запрос с "?" защищает от SQL-инъекций
             PreparedStatement preparedStatement = connection.prepareStatement("select COUNT (id)\n" +
-                    "from person\n" +
+                    "from house\n" +
                     "where id=?");
             // подставляем значение houseId на место первого знака вопроса в запросе
             // setInt указывает что значение должно быть целое число
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, houseId);
             // выполняем запрос и получаем набор строк из базы - объект ResultSet
             ResultSet rs = preparedStatement.executeQuery();
             // ставим курсор ResultSet на первую строку
@@ -52,4 +29,5 @@ public class UserDBConnection extends BaseDBConnection {
             throw new RuntimeException(e);
         }
     }
+
 }
