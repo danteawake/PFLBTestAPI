@@ -3,10 +3,10 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+import org.testng.Assert;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 public class UpdateUserMoneyPage extends BasePage {
@@ -39,6 +39,24 @@ public class UpdateUserMoneyPage extends BasePage {
         statusButton.shouldBe(visible);
         statusButton.shouldHave(com.codeborne.selenide.Condition.text(expectedText));
         log.info("Статус добавления проверен: {}", statusButton.getText());
+        return this;
+    }
+
+    @Step("Получить текущий баланс пользователя")
+    public double getCurrentBalance() {
+        SelenideElement balanceElement = $x("//button[contains(@class,'money')]");
+        String balanceText = balanceElement.getText();
+        double balance = Double.parseDouble(balanceText.trim());
+        log.info("Текущий баланс: {}", balance);
+        return balance;
+    }
+
+    @Step("Проверить баланс: ожидаемое значение {expectedBalance}")
+    public UpdateUserMoneyPage checkBalance(double expectedBalance) {
+        double actualBalance = getCurrentBalance();
+        Assert.assertEquals(actualBalance, expectedBalance,
+                "Баланс не совпадает с ожидаемым!");
+        log.info("Баланс проверен: ожидаемый {}, фактический {}", expectedBalance, actualBalance);
         return this;
     }
 }

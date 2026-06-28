@@ -20,7 +20,8 @@ public class UserAddMoneyTest extends BaseTest {
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, 1000)
-                .checkStatus("code: 200");
+                .checkStatus("code: 200")
+                .checkBalance(1100);// баланс увеличился
     }
 
     @Test(priority = 2, description = "2. Добавление отрицательной суммы")
@@ -35,7 +36,7 @@ public class UserAddMoneyTest extends BaseTest {
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, -500)
-                .checkStatus("Incorrect input data");
+                .checkStatus("Incorrect input data");   // Баланс не проверяем на UI (не отображается при ошибке)
     }
 
     @Test(priority = 3, description = "3. Добавление нулевой суммы")
@@ -50,6 +51,6 @@ public class UserAddMoneyTest extends BaseTest {
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, 0)
-                .checkStatus("Incorrect input data");
+                .checkStatus("Incorrect input data");   // Баланс не проверяем на UI (не отображается при ошибке)
     }
 }
