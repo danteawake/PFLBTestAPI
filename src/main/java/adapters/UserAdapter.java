@@ -1,5 +1,6 @@
 package adapters;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import models.positive.UserRequest;
 import models.positive.UserResponse;
@@ -49,5 +50,24 @@ public class UserAdapter extends BaseAdapter {
                 .spec(BaseAdapter.ok200)
                 .extract()
                 .as(UserResponse.class);
+    }
+
+    // Создаёт пользователя со случайными данными (имя, фамилия, возраст, пол) и заданным балансом. Использует Faker для генерации реалистичных данных.
+    public static UserResponse createRandomUser(double money, String token) {
+        Faker faker = new Faker();
+        String firstName = faker.name().firstName();
+        String secondName = faker.name().lastName() + "_" + System.currentTimeMillis();
+        int age = faker.number().numberBetween(18, 65);
+        String sex = faker.options().option("MALE", "FEMALE");
+
+        UserRequest userRequest = UserRequest.builder()
+                .firstName(firstName)
+                .secondName(secondName)
+                .age(age)
+                .sex(sex)
+                .money(money)
+                .build();
+
+        return createUser(userRequest, token);
     }
 }
