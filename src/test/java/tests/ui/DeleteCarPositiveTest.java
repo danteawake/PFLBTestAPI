@@ -27,9 +27,9 @@ public class DeleteCarPositiveTest extends BaseTest {
             testName = "Проверка удаления автомобиля")
     @Owner("Konstantin")
     @Description("Проверка удаления автомобиля")
-    public void checkDeleteCar() {
+    public void checkDeleteCar(String token) {
         //Создаем автомобиль через api
-        CarResponse carRs = CarAdapter.createCar(carRq);
+        CarResponse carRs = CarAdapter.createCar(carRq,token);
         int carId = carRs.id;
         log.info("Машина создана. ID = {}", carId);
         //удаляем автомобиль через ui

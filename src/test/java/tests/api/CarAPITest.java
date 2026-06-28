@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.assertEquals;
 
 @Slf4j
-public class CarAPITest {
+public class CarAPITest extends BaseAPITest{
 
     CarRequest carRq = CarRequest.builder()
             .engineType("Gasoline")
@@ -25,12 +25,12 @@ public class CarAPITest {
     public void checkCreatingCar() {
         CarDBConnection connection = new CarDBConnection();
         connection.connect();
-        CarResponse carRs = CarAdapter.createCar(carRq);//Создаем автомобиль
+        CarResponse carRs = CarAdapter.createCar(carRq,token);//Создаем автомобиль
         int carId = carRs.id;
         assertEquals(
                 connection.select(carId), carId);
         log.info("Автомобиль с Id {} успешно создан", carId);
-        CarResponse carResponse = CarAdapter.getCar(carId); //Получаем созданный автомобиль
+        CarResponse carResponse = CarAdapter.getCar(carId,token); //Получаем созданный автомобиль
         assertEquals(carResponse.mark, carRq.mark);
         assertEquals(carResponse.engineType, carRq.engineType);
         assertEquals(carResponse.model, carRq.model);
@@ -42,13 +42,13 @@ public class CarAPITest {
                 .model("Fantom")
                 .price(5000)
                 .build();
-        CarResponse carRsUpdated = CarAdapter.updateCar(carId, carRqUpdate);
+        CarResponse carRsUpdated = CarAdapter.updateCar(carId, carRqUpdate,token);
         int carIdUpdated = carRsUpdated.id;
         String engineType = carRsUpdated.engineType;
         assertEquals(connection.selectUpdated(carIdUpdated), engineType);
         log.info("Автомобиль с id {} успешно изменен", carIdUpdated);
 
-        CarAdapter.deleteCar(carId);                                   //Удаляем созданный автомобиль
+        CarAdapter.deleteCar(carId,token);                                   //Удаляем созданный автомобиль
         assertEquals(0, connection.deleted(carIdUpdated));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();

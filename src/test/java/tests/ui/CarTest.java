@@ -30,7 +30,7 @@ public class CarTest extends BaseTest {
         carReaAll.checkSortingByPrice();
     }
 
-    public void checkCreatingCar() {
+    public void checkCreatingCar(String token) {
         loginPage.openPage();
         loginPage.login(User.userStandard().getUsername(),
                 User.userStandard().getPassword());
@@ -41,7 +41,7 @@ public class CarTest extends BaseTest {
         connection.connect();
         Assert.assertEquals(connection.selectCreatedCar(carId), 1);
         log.info("Id созданного автомобиля найден в таблице БД car");
-        CarAdapter.deleteCar(carId);                                   //Удаляем созданный автомобиль
+        CarAdapter.deleteCar(carId,token);                                   //Удаляем созданный автомобиль
         assertEquals(0, connection.deleted(carId));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();

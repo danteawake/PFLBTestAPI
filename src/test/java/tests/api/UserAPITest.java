@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class UserAPITest {
+public class UserAPITest extends BaseAPITest {
 
     private static final Faker faker = new Faker();
 
@@ -82,22 +82,22 @@ public class UserAPITest {
                 .price(5000)
                 .build();
 
-        CarResponse createdCar = CarAdapter.createCar(carRequest);
+        CarResponse createdCar = CarAdapter.createCar(carRequest, token);
         int carId = createdCar.id;
         System.out.println("Создана машина ID: " + carId + ", цена: " + createdCar.price);
 
         // 3. Покупаем машину (предусловие)
-        CarAdapter.buyCar(userId, carId);
+        CarAdapter.buyCar(userId, carId, token);
         System.out.println("Машина с ID: " + carId + " куплена пользователем " + userId);
 
         // 4. Продаём машину (ПРОВЕРЯЕМ ЭНДПОИНТ)
-        CarAdapter.sellCar(userId, carId);
+        CarAdapter.sellCar(userId, carId, token);
         System.out.println("Машина с ID: " + carId + " продана — статус 200 OK");
 
         // 5. Проверяем, что машина больше не привязана к пользователю
         // БАГ! GET /user/{userId}/cars возвращает 204 вместо 200
         // Если тест упадёт — это ожидаемый баг, а не ошибка теста
-        List<CarResponse> userCars = CarAdapter.getUserCars(userId);
+        List<CarResponse> userCars = CarAdapter.getUserCars(userId, token);
 
         boolean carFound = userCars.stream()
                 .anyMatch(car -> car.id == carId);

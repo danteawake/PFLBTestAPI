@@ -16,9 +16,9 @@ import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
     static Gson gson = new Gson();
-    private static String token = "Bearer " + LoginAdapter.getAccessToken();
 
-    public static CarResponse createCar(CarRequest carRq) {
+
+    public static CarResponse createCar(CarRequest carRq, String token) {
 
         System.out.println(token);
         return given()
@@ -34,7 +34,7 @@ public class CarAdapter extends BaseAdapter {
                 .as(CarResponse.class);
     }
 
-    public static CarResponse getCar(int carId) {
+    public static CarResponse getCar(int carId, String token) {
         return given()
                 .spec(spec)
                 .header("Authorization", token)
@@ -47,7 +47,7 @@ public class CarAdapter extends BaseAdapter {
                 .as(CarResponse.class);
     }
 
-    public static CarResponse updateCar(int carId, CarRequestUpdate carRequestUpdate) {
+    public static CarResponse updateCar(int carId, CarRequestUpdate carRequestUpdate, String token) {
         return given()
                 .spec(spec)
                 .header("Authorization", token)
@@ -63,7 +63,7 @@ public class CarAdapter extends BaseAdapter {
                 .as(CarResponse.class);
     }
 
-    public static void deleteCar(int carId) {
+    public static void deleteCar(int carId, String token) {
         given()
                 .spec(spec)
                 .header("Authorization", token)
@@ -75,7 +75,7 @@ public class CarAdapter extends BaseAdapter {
     }
 
     @Step("Купить машину с ID {carId} для пользователя {userId}")
-    public static void buyCar(int userId, int carId) {
+    public static void buyCar(int userId, int carId, String token) {
         given()
                 .spec(BaseAdapter.spec)
                 .header("Authorization", token)
@@ -88,7 +88,7 @@ public class CarAdapter extends BaseAdapter {
     }
 
     @Step("Продать машину с ID {carId} у пользователя {userId}")
-    public static void sellCar(int userId, int carId) {
+    public static void sellCar(int userId, int carId, String token) {
         given()
                 .spec(BaseAdapter.spec)
                 .header("Authorization", token)
@@ -101,7 +101,7 @@ public class CarAdapter extends BaseAdapter {
     }
 
     @Step("Получить список машин пользователя {userId}")
-    public static List<CarResponse> getUserCars(int userId) {
+    public static List<CarResponse> getUserCars(int userId, String token) {
         Response response = given()
                 .spec(BaseAdapter.spec)
                 .header("Authorization", token)
