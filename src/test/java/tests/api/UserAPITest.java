@@ -36,11 +36,11 @@ public class UserAPITest extends BaseAPITest {
                 .money(initialMoney)
                 .build();
 
-        UserResponse createdUser = UserAdapter.createUser(userRequest);
+        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
-        UserResponse updatedUser = UserAdapter.addMoney(userId, addedMoney);
+        UserResponse updatedUser = UserAdapter.addMoney(userId, addedMoney, token);
         System.out.println("Добавлено денег: " + addedMoney);
         System.out.println("Новый баланс: " + updatedUser.money);
 
@@ -70,7 +70,7 @@ public class UserAPITest extends BaseAPITest {
                 .money(10000.0)
                 .build();
 
-        UserResponse createdUser = UserAdapter.createUser(userRequest);
+        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
@@ -126,19 +126,19 @@ public class UserAPITest extends BaseAPITest {
                 .money(20000.0)
                 .build();
 
-        UserResponse createdUser = UserAdapter.createUser(userRequest);
+        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
         // 2. Создаём дом
         int floorCount = 2;
         double price = 10000.0;
-        HouseResponse createdHouse = HouseAdapter.createHouse(floorCount, price);
+        HouseResponse createdHouse = HouseAdapter.createHouse(floorCount, price, token);
         int houseId = createdHouse.id;
         System.out.println("Создан дом ID: " + houseId + ", этажность: " + createdHouse.floorCount + ", цена: " + createdHouse.price);
 
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
-        HouseAdapter.settleUser(houseId, userId);
+        HouseAdapter.settleUser(houseId, userId, token);
         System.out.println("Пользователь заселён в дом — статус 200 OK");
     }
 }

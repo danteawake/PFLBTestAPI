@@ -12,10 +12,9 @@ import static io.restassured.RestAssured.given;
 public class HouseAdapter {
 
     static Gson gson = new Gson();
-    private static final String token = "Bearer " + LoginAdapter.getAccessToken();
 
     @Step("Создать дом с этажностью {floorCount} и ценой {price}")
-    public static HouseResponse createHouse(int floorCount, double price) {
+    public static HouseResponse createHouse(int floorCount, double price, String token) {
         HouseRequest request = HouseRequest.builder()
                 .floorCount(floorCount)
                 .price(price)
@@ -25,7 +24,7 @@ public class HouseAdapter {
 
         return given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .body(gson.toJson(request))          // ← Gson, как у всех
                 .when()
                 .post("/house")
@@ -36,10 +35,10 @@ public class HouseAdapter {
     }
 
     @Step("Заселить пользователя {userId} в дом {houseId}")
-    public static void settleUser(int houseId, int userId) {
+    public static void settleUser(int houseId, int userId, String token) {
         given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .pathParam("houseId", houseId)
                 .pathParam("userId", userId)
                 // НЕТ .body() — только path-параметры!
