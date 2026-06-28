@@ -32,7 +32,6 @@ public class UserAPITest extends BaseAPITest {
         // 1. Создаём пользователя со случайными данными и балансом 500
         UserResponse createdUser = UserAdapter.createRandomUser(initialMoney, token);
         int userId = createdUser.id;
-        System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
         // 2. Отправляем запрос и проверяем JSON Schema
         UserResponse updatedUser = given()
@@ -47,9 +46,6 @@ public class UserAPITest extends BaseAPITest {
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/UserSchema.json"))
                 .extract()
                 .as(UserResponse.class);
-
-        System.out.println("Добавлено денег: " + addedMoney);
-        System.out.println("Новый баланс: " + updatedUser.money);
 
         double expectedBalance = initialMoney + addedMoney;
         Assert.assertEquals(updatedUser.money, expectedBalance, 0.01,
@@ -68,7 +64,6 @@ public class UserAPITest extends BaseAPITest {
         // 1. Создаём пользователя со случайными данными и балансом 10000
         UserResponse createdUser = UserAdapter.createRandomUser(10000.0, token);
         int userId = createdUser.id;
-        System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
         // 2. Создаём машину
         CarRequest carRequest = CarRequest.builder()
@@ -80,11 +75,9 @@ public class UserAPITest extends BaseAPITest {
 
         CarResponse createdCar = CarAdapter.createCar(carRequest, token);
         int carId = createdCar.id;
-        System.out.println("Создана машина ID: " + carId + ", цена: " + createdCar.price);
 
         // 3. Покупаем машину (предусловие)
         CarAdapter.buyCar(userId, carId, token);
-        System.out.println("Машина с ID: " + carId + " куплена пользователем " + userId);
 
         // 4. Продаём машину (проверяем эндпоинт)
         // Проверяем JSON Schema в ответе
@@ -101,8 +94,6 @@ public class UserAPITest extends BaseAPITest {
                 .extract()
                 .as(UserResponse.class);
 
-        System.out.println("Машина с ID: " + carId + " продана — статус 200 OK");
-
         // 5. Проверяем, что машина больше не привязана к пользователю
         // БАГ! GET /user/{userId}/cars возвращает 204 вместо 200
         List<CarResponse> userCars = CarAdapter.getUserCars(userId, token);
@@ -111,8 +102,6 @@ public class UserAPITest extends BaseAPITest {
                 .anyMatch(car -> car.id == carId);
 
         Assert.assertFalse(carFound, "Машина " + carId + " всё ещё привязана к пользователю " + userId);
-
-        System.out.println("Проверка пройдена: машина удалена из списка пользователя");
     }
 
     @Test(priority = 3,
@@ -125,14 +114,12 @@ public class UserAPITest extends BaseAPITest {
         // 1. Создаём пользователя со случайными данными и балансом 20000
         UserResponse createdUser = UserAdapter.createRandomUser(20000.0, token);
         int userId = createdUser.id;
-        System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
         // 2. Создаём дом
         int floorCount = 2;
         double price = 10000.0;
         HouseResponse createdHouse = HouseAdapter.createHouse(floorCount, price, token);
         int houseId = createdHouse.id;
-        System.out.println("Создан дом ID: " + houseId + ", этажность: " + createdHouse.floorCount + ", цена: " + createdHouse.price);
 
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
         // Проверяем JSON Schema в ответе
@@ -148,8 +135,5 @@ public class UserAPITest extends BaseAPITest {
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/HouseSchema.json"))
                 .extract()
                 .as(HouseResponse.class);
-
-        System.out.println("Пользователь заселён в дом — статус 200 OK");
-        System.out.println("Дом ID: " + updatedHouse.id + ", жильцов: " + updatedHouse.lodgers.size());
     }
 }

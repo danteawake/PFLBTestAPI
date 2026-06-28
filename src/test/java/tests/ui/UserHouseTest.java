@@ -23,9 +23,6 @@ public class UserHouseTest extends BaseTest {
         updateUserHousePage.openPage()
                 .settleUser(userId, houseId)
                 .checkStatus("code: 200");
-        logger.info("Пользователь {} заселён в дом {}", userId, houseId);
-
-        logger.info("✅ Тест 8 пройден: пользователь {} заселён в дом {}", userId, houseId);
     }
 
     @Test(priority = 2,
@@ -43,12 +40,9 @@ public class UserHouseTest extends BaseTest {
         updateUserHousePage.openPage()
                 .settleUser(userId, houseId)
                 .checkStatus("code: 200");
-        logger.info("Пользователь {} заселён в дом {}", userId, houseId);
 
         updateUserHousePage.openPage()
                 .evictUser(userId, houseId)
                 .checkStatus("code: 200");
-
-        logger.info("✅ Тест 9 пройден: пользователь {} выселен из дома {}", userId, houseId);
     }
 }
