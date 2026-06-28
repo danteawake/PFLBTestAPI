@@ -18,7 +18,7 @@ public class UserJDBCTest extends BaseTest {
 
     private static final Faker faker = new Faker();
 
-    private String apiToken; // Поле для хранения токена внутри класса
+    private String apiToken;
 
     @BeforeMethod(description = "Получение токена авторизации для предварительных API-шагов")
     public void setUpApiToken() {
@@ -37,13 +37,10 @@ public class UserJDBCTest extends BaseTest {
         loginPage.openPage().login(testUsername, testPassword);
 
         // 2. Создаём пользователя со случайным балансом через UI
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-        //Генерируем случайный баланс от 1 до 1 000 000
         int randomBalance = faker.number().numberBetween(1, 1000000);
         logger.info("Случайный баланс: {}", randomBalance);
 
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", randomBalance);
+        int userId = createUserPage.createUser(randomBalance);
         logger.info("Создан пользователь ID: {}", userId);
 
         // 3. Получаем баланс из API (GET /user/{userId})

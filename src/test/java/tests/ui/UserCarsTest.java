@@ -1,13 +1,10 @@
 package tests.ui;
 
-import com.github.javafaker.Faker;
 import dto.Car;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 public class UserCarsTest extends BaseTest {
-
-    private static final Faker faker = new Faker();
 
     private int createTestCar(String engineType, String mark, String model, double price) {
         Car car = new Car(engineType, mark, model, price);
@@ -24,10 +21,7 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithEnoughMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
+        int userId = createUserPage.createUser(10000);
         int carId = createTestCar("Gasoline", "Tesla", "Model S", 5000.00);
 
         updateUserCarPage.openPage()
@@ -44,10 +38,7 @@ public class UserCarsTest extends BaseTest {
     public void buyCarWithoutMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 100);
+        int userId = createUserPage.createUser(100);
         int carId = createTestCar("Electric", "Bugatti", "Veyron", 50000.00);
 
         updateUserCarPage.openPage()
@@ -56,7 +47,8 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 3,
-            description = "6. Продажа машины, которая есть у пользователя")
+            description = "6. Продажа машины, которая есть у пользователя",
+            groups = {"bug"})
     @Description("Пользователь продаёт машину, баланс увеличивается")
     @Feature("Users UI")
     @Story("Продажа машины")
@@ -64,10 +56,7 @@ public class UserCarsTest extends BaseTest {
     public void sellExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
+        int userId = createUserPage.createUser(10000);
         int carId = createTestCar("Diesel", "BMW", "X5", 8000.00);
 
         updateUserCarPage.openPage()
@@ -80,8 +69,7 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 4,
-            description = "7. Продажа машины, которой нет у пользователя",
-            groups = {"bug"})
+            description = "7. Продажа машины, которой нет у пользователя")
     @Description("Пользователь пытается продать машину, которой у него нет")
     @Feature("Users UI")
     @Story("Продажа машины")
@@ -90,10 +78,7 @@ public class UserCarsTest extends BaseTest {
     public void sellNonExistingCar() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
+        int userId = createUserPage.createUser(10000);
         int carId = createTestCar("CNG", "Audi", "A8", 10000.00);
 
         updateUserCarPage.openPage()
