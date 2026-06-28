@@ -9,14 +9,12 @@ import static io.restassured.RestAssured.given;
 
 public class UserAdapter extends BaseAdapter {
     static Gson gson = new Gson();
-    private static final String token =
-            "Bearer " + LoginAdapter.getAccessToken();
 
-    public static UserResponse createUser(UserRequest userRq) {
+    public static UserResponse createUser(UserRequest userRq, String token) {
 
         return given()
                 .spec(spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .body(gson.toJson(userRq))
                 .when()
                 .post("/user")
@@ -27,11 +25,11 @@ public class UserAdapter extends BaseAdapter {
     }
 
     @Step("Получить пользователя с ID {userId}")
-    public static UserResponse getUser(int userId) {
+    public static UserResponse getUser(int userId, String token) {
 
         return given()
                 .spec(spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .pathParam("userId", userId)
                 .when()
                 .get("/user/{userId}")
@@ -42,10 +40,10 @@ public class UserAdapter extends BaseAdapter {
     }
 
     @Step("Добавить {amount} денег пользователю {userId}")
-    public static UserResponse addMoney(int userId, double amount) {
+    public static UserResponse addMoney(int userId, double amount, String token) {
         return given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .pathParam("userId", userId)
                 .pathParam("amount", amount)
                 .when()
