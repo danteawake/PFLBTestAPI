@@ -14,8 +14,6 @@ public class CarAdapter extends BaseAdapter {
     private static String token = "Bearer " + LoginAdapter.getAccessToken();
 
     public static CarResponse createCar(CarRequest carRq) {
-
-        System.out.println(token);
         return given()
                 .spec(spec)
                 .header("Authorization", token)
@@ -27,6 +25,17 @@ public class CarAdapter extends BaseAdapter {
                 .spec(ok201)
                 .extract()
                 .as(CarResponse.class);
+    }
+    public static void createCarWithIncorrectEngineType(CarRequest carRq) {
+        given()
+                .spec(spec)
+                .header("Authorization", token)
+                .body(gson.toJson(carRq))
+                .when()
+                .post("/car")
+                .then()
+                .spec(badRequest400);
+
     }
 
     public static CarResponse getCar(int carId) {

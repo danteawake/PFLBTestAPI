@@ -3,6 +3,7 @@ package tests.ui;
 import adapters.CarAdapter;
 import db.CarDBConnection;
 import dto.Car;
+import dto.CarNotFull;
 import dto.User;
 import jdk.jfr.Description;
 import jdk.jfr.Enabled;
@@ -34,7 +35,8 @@ public class CarTest extends BaseTest {
                 .checkSortingEngineType2Mark32Model4(4, "Model")
                 .checkSortingByPrice();
     }
-@Description("Создание автомобиля")
+
+    @Description("Создание автомобиля с корректными данными")
     public void checkCreatingCar() {
         loginPage.openPage()
                 .login(User.userStandard().getUsername(),
@@ -50,5 +52,15 @@ public class CarTest extends BaseTest {
         assertEquals(0, connection.deleted(carId));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();
+    }
+
+    @Description("Создание автомобиля не со всеми полями")
+    public void checkCreatingCarWithNotAllFields() {
+        loginPage.openPage()
+                .login(User.userStandard().getUsername(),
+                        User.userStandard().getPassword());
+        createNewCarPage.openCreateNewCarPage();
+        CarNotFull carNotFull = new CarNotFull("CNG", "Volvo", "S14");
+        createNewCarPage.createCarWithNotAllFields(carNotFull);
     }
 }

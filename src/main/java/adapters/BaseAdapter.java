@@ -29,6 +29,10 @@ public class BaseAdapter {
             .expectStatusCode(404)
             .build();
 
+    public static ResponseSpecification badRequest400 = new ResponseSpecBuilder()
+            .expectStatusCode(400)
+            .build();
+
     public static ResponseSpecification ok201 = new ResponseSpecBuilder()
             .expectStatusCode(201)
             .build();

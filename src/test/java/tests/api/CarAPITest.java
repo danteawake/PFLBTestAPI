@@ -21,6 +21,13 @@ public class CarAPITest {
             .price(2000)
             .build();
 
+    CarRequest carRqWithWrongEngineType = CarRequest.builder()
+            .engineType("gasoline")
+            .mark("Volvo")
+            .model("Fantom")
+            .price(14000)
+            .build();
+
     @Test(description = "Создание автомобиля с корректными параметрами",
             testName = "Создание автомобиля")
     public void checkCreatingCar() {
@@ -53,5 +60,12 @@ public class CarAPITest {
         assertEquals(0, connection.deleted(carIdUpdated));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();
+    }
+    @Test(description = "Создание автомобиля с некорректными параметрами",
+            testName = "Создание автомобиля с некорректным Engine_Type")
+    public void checkCreatingWithNotAllFields(){
+        CarDBConnection connection = new CarDBConnection();
+        connection.connect();
+        CarAdapter.createCarWithIncorrectEngineType(carRqWithWrongEngineType);
     }
 }
