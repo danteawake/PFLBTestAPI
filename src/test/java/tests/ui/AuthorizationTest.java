@@ -8,8 +8,6 @@ public class AuthorizationTest extends BaseTest {
     @Test
     public void checkAuthorizationWithValidCredentials() {
         loginPage.openPage()
-                .login(
-                        User.userStandard().getUsername(),
-                        User.userStandard().getPassword());
+                .login(testUsername,testPassword);
     }
 }
