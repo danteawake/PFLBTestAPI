@@ -1,19 +1,23 @@
 package tests.api;
 
+import adapters.BaseAdapter;
 import adapters.CarAdapter;
 import adapters.HouseAdapter;
 import adapters.UserAdapter;
-import com.github.javafaker.Faker;
 import io.qameta.allure.*;
-import models.positive.*;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import models.positive.CarRequest;
+import models.positive.CarResponse;
+import models.positive.HouseResponse;
+import models.positive.UserResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class UserAPITest extends BaseAPITest {
+import static io.restassured.RestAssured.given;
 
-    private static final Faker faker = new Faker();
+public class UserAPITest extends BaseAPITest {
 
     @Test(priority = 1,
             description = "10. POST /user/{userId}/money — добавление денег, статус 200")
@@ -25,22 +29,25 @@ public class UserAPITest extends BaseAPITest {
         double initialMoney = 500.0;
         double addedMoney = 300.0;
 
-        String firstName = faker.name().firstName();
-        String secondName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        UserRequest userRequest = UserRequest.builder()
-                .firstName(firstName)
-                .secondName(secondName)
-                .age(25)
-                .sex("MALE")
-                .money(initialMoney)
-                .build();
-
-        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
+        // 1. Создаём пользователя со случайными данными и балансом 500
+        UserResponse createdUser = UserAdapter.createRandomUser(initialMoney, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
-        UserResponse updatedUser = UserAdapter.addMoney(userId, addedMoney, token);
+        // 2. Отправляем запрос и проверяем JSON Schema
+        UserResponse updatedUser = given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", "Bearer " + token)
+                .pathParam("userId", userId)
+                .pathParam("amount", addedMoney)
+                .when()
+                .post("/user/{userId}/money/{amount}")
+                .then()
+                .spec(BaseAdapter.ok200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/UserSchema.json"))
+                .extract()
+                .as(UserResponse.class);
+
         System.out.println("Добавлено денег: " + addedMoney);
         System.out.println("Новый баланс: " + updatedUser.money);
 
@@ -58,19 +65,8 @@ public class UserAPITest extends BaseAPITest {
     @Owner("Якушин Андрей")
     @Issue("BUG. GET /user/{userId}/cars возвращает 204 вместо 200")
     public void checkSellCar() {
-        // 1. Создаём пользователя
-        String firstName = faker.name().firstName();
-        String secondName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        UserRequest userRequest = UserRequest.builder()
-                .firstName(firstName)
-                .secondName(secondName)
-                .age(30)
-                .sex("MALE")
-                .money(10000.0)
-                .build();
-
-        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
+        // 1. Создаём пользователя со случайными данными и балансом 10000
+        UserResponse createdUser = UserAdapter.createRandomUser(10000.0, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
@@ -90,13 +86,25 @@ public class UserAPITest extends BaseAPITest {
         CarAdapter.buyCar(userId, carId, token);
         System.out.println("Машина с ID: " + carId + " куплена пользователем " + userId);
 
-        // 4. Продаём машину (ПРОВЕРЯЕМ ЭНДПОИНТ)
-        CarAdapter.sellCar(userId, carId, token);
+        // 4. Продаём машину (проверяем эндпоинт)
+        // Проверяем JSON Schema в ответе
+        UserResponse updatedUser = given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", "Bearer " + token)
+                .pathParam("userId", userId)
+                .pathParam("carId", carId)
+                .when()
+                .post("/user/{userId}/sellCar/{carId}")
+                .then()
+                .spec(BaseAdapter.ok200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/UserSchema.json"))
+                .extract()
+                .as(UserResponse.class);
+
         System.out.println("Машина с ID: " + carId + " продана — статус 200 OK");
 
         // 5. Проверяем, что машина больше не привязана к пользователю
         // БАГ! GET /user/{userId}/cars возвращает 204 вместо 200
-        // Если тест упадёт — это ожидаемый баг, а не ошибка теста
         List<CarResponse> userCars = CarAdapter.getUserCars(userId, token);
 
         boolean carFound = userCars.stream()
@@ -114,19 +122,8 @@ public class UserAPITest extends BaseAPITest {
     @Story("Заселение в дом")
     @Owner("Якушин Андрей")
     public void checkSettleUser() {
-        // 1. Создаём пользователя
-        String firstName = faker.name().firstName();
-        String secondName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        UserRequest userRequest = UserRequest.builder()
-                .firstName(firstName)
-                .secondName(secondName)
-                .age(30)
-                .sex("MALE")
-                .money(20000.0)
-                .build();
-
-        UserResponse createdUser = UserAdapter.createUser(userRequest, token);
+        // 1. Создаём пользователя со случайными данными и балансом 20000
+        UserResponse createdUser = UserAdapter.createRandomUser(20000.0, token);
         int userId = createdUser.id;
         System.out.println("Создан пользователь ID: " + userId + ", баланс: " + createdUser.money);
 
@@ -138,7 +135,21 @@ public class UserAPITest extends BaseAPITest {
         System.out.println("Создан дом ID: " + houseId + ", этажность: " + createdHouse.floorCount + ", цена: " + createdHouse.price);
 
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
-        HouseAdapter.settleUser(houseId, userId, token);
+        // Проверяем JSON Schema в ответе
+        HouseResponse updatedHouse = given()
+                .spec(BaseAdapter.spec)
+                .header("Authorization", "Bearer " + token)
+                .pathParam("houseId", houseId)
+                .pathParam("userId", userId)
+                .when()
+                .post("/house/{houseId}/settle/{userId}")
+                .then()
+                .spec(BaseAdapter.ok200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/HouseSchema.json"))
+                .extract()
+                .as(HouseResponse.class);
+
         System.out.println("Пользователь заселён в дом — статус 200 OK");
+        System.out.println("Дом ID: " + updatedHouse.id + ", жильцов: " + updatedHouse.lodgers.size());
     }
 }
