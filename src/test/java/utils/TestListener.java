@@ -29,6 +29,7 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         log.error("======================================== FAILED TEST {} Duration: {}s ========================================",
                 result.getName(), getExecutionTime(result));
+        // Метод takeScreenshot() в TestListener я намеренно не вызываю, чтобы избежать дублирования скриншотов в Allure-отчёте, скриншоты при падении тестов делаются автоматически через AllureSelenide, который подключён в BaseTest
     }
 
     @Override
