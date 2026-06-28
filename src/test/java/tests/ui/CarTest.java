@@ -4,6 +4,7 @@ import adapters.CarAdapter;
 import db.CarDBConnection;
 import dto.Car;
 import dto.User;
+import jdk.jfr.Description;
 import jdk.jfr.Enabled;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
@@ -13,14 +14,16 @@ import pages.CreateNewCarPage;
 import static org.testng.AssertJUnit.assertEquals;
 
 @Log4j2
-@Test
+@Test(description = "Открытие страницы логина с корректными кредами",
+testName = "Открытие страницы логина")
+@Description("Открытие страницы логина с корректными кредами")
 public class CarTest extends BaseTest {
     public void checkOpenedPage() {
         loginPage.openPage().login(
                 User.userStandard().getUsername(),
                 User.userStandard().getPassword());
     }
-
+@Description("Сортировка автомобилей")
     public void checkCarsSorting() {
         carReaAll.openPage()
                 .checkOpenedPage()
@@ -31,7 +34,7 @@ public class CarTest extends BaseTest {
                 .checkSortingEngineType2Mark32Model4(4, "Model")
                 .checkSortingByPrice();
     }
-
+@Description("Создание автомобиля")
     public void checkCreatingCar() {
         loginPage.openPage()
                 .login(User.userStandard().getUsername(),

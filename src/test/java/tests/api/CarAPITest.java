@@ -21,7 +21,8 @@ public class CarAPITest {
             .price(2000)
             .build();
 
-    @Test
+    @Test(description = "Создание автомобиля с корректными параметрами",
+            testName = "Создание автомобиля")
     public void checkCreatingCar() {
         CarDBConnection connection = new CarDBConnection();
         connection.connect();
