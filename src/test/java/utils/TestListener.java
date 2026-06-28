@@ -29,9 +29,6 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         log.error("======================================== FAILED TEST {} Duration: {}s ========================================",
                 result.getName(), getExecutionTime(result));
-
-        // ✅ Скриншот через @Attachment
-        takeScreenshot();
     }
 
     @Override

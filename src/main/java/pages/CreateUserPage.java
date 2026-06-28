@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 
@@ -9,6 +10,8 @@ import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 public class CreateUserPage extends BasePage {
+
+    private static final Faker faker = new Faker();
 
     private final SelenideElement firstNameInput = $("#first_name_send");
     private final SelenideElement lastNameInput = $("#last_name_send");
@@ -28,10 +31,14 @@ public class CreateUserPage extends BasePage {
         return this;
     }
 
-    @Step("Создать пользователя: {firstName} {lastName}, возраст {age}, пол {sex}, баланс {money}")
-    public int createUser(String firstName, String lastName, int age, String sex, int money) {
-        log.info("Создание пользователя: {} {}, возраст {}, пол {}, баланс {}",
-                firstName, lastName, age, sex, money);
+    @Step("Создать пользователя с балансом {money}")
+    public int createUser(int money) {
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+        int age = faker.number().numberBetween(18, 65);
+        String sex = faker.options().option("MALE", "FEMALE");
+
+        log.info("Создание пользователя: {} {}, возраст {}, пол {}, баланс {}", firstName, lastName, age, sex, money);
 
         openPage();
         sleep(500);

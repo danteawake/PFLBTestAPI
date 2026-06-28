@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Якушин Андрей - UI тесты">
+<suite name="Якушин Андрей - все тесты">
 
     <listeners>
         <listener class-name="utils.TestListener"/>
     </listeners>
 
-    <test name="Добавление денег (проверки 1-3)">
+    <!-- UI-тесты (проверки 1-9) -->
+
+    <test name="UI: Добавление денег (проверки 1-3)">
         <classes>
             <class name="tests.ui.UserAddMoneyTest"/>
         </classes>
     </test>
 
-    <test name="Покупка/продажа машин (проверки 4-7)">
+    <test name="UI: Покупка/продажа машин (проверки 4-7)">
         <classes>
             <class name="tests.ui.UserCarsTest"/>
         </classes>
     </test>
 
-    <test name="Заселение/выселение из дома (проверки 8-9)">
+    <test name="UI: Заселение/выселение из дома (проверки 8-9)">
         <classes>
             <class name="tests.ui.UserHouseTest"/>
         </classes>
     </test>
+
+    <!-- API-тесты (проверки 10-12) -->
 
     <test name="API: Проверки 10-12">
         <classes>
             <class name="tests.api.UserAPITest"/>
         </classes>
     </test>
+
+    <!-- JDBC-тесты (проверка 13) -->
 
     <test name="JDBC: Проверка 13 (баланс в БД)">
         <classes>

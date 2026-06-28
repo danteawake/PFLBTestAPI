@@ -1,6 +1,5 @@
 package tests.ui;
 
-import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -8,8 +7,6 @@ import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 public class UserAddMoneyTest extends BaseTest {
-
-    private static final Faker faker = new Faker();
 
     @Test(priority = 1, description = "1. Добавление денег (положительная сумма)")
     @Description("Пользователь добавляет положительную сумму, баланс увеличивается")
@@ -19,10 +16,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addPositiveMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+        int userId = createUserPage.createUser(100);
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, 1000)
@@ -37,10 +31,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addNegativeMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+        int userId = createUserPage.createUser(100);
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, -500)
@@ -55,10 +46,7 @@ public class UserAddMoneyTest extends BaseTest {
     public void addZeroMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 25, "MALE", 100);
+        int userId = createUserPage.createUser(100);
 
         updateUserMoneyPage.openPage()
                 .addMoney(userId, 0)

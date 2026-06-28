@@ -1,6 +1,5 @@
 package tests.ui;
 
-import com.github.javafaker.Faker;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -8,8 +7,6 @@ import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 public class UserHouseTest extends BaseTest {
-
-    private static final Faker faker = new Faker();
 
     @Test(priority = 1,
             description = "8. Заселение пользователя в свободный дом")
@@ -20,10 +17,7 @@ public class UserHouseTest extends BaseTest {
     public void settleUserToFreeHouse() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
+        int userId = createUserPage.createUser(10000);
         int houseId = createHousePage.createHouse(2, 5000.0);
 
         updateUserHousePage.openPage()
@@ -43,10 +37,7 @@ public class UserHouseTest extends BaseTest {
     public void evictUserFromHouse() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
-
-        int userId = createUserPage.createUser(firstName, lastName, 30, "MALE", 10000);
+        int userId = createUserPage.createUser(10000);
         int houseId = createHousePage.createHouse(2, 5000.0);
 
         updateUserHousePage.openPage()
