@@ -22,20 +22,20 @@ public class CarTest extends BaseTest {
     }
 
     public void checkCarsSorting() {
-        carReaAll.openPage();
-        carReaAll.checkOpenedPage();
-        carReaAll.checkElementsOnPage();
-        carReaAll.checkSortingById();
-        carReaAll.checkSortingEngineType2Mark32Model4(2, "Engine Type");
-        carReaAll.checkSortingEngineType2Mark32Model4(3, "Mark");
-        carReaAll.checkSortingEngineType2Mark32Model4(4, "Model");
-        carReaAll.checkSortingByPrice();
+        carReaAll.openPage()
+                .checkOpenedPage()
+                .checkElementsOnPage()
+                .checkSortingById()
+                .checkSortingEngineType2Mark32Model4(2, "Engine Type")
+                .checkSortingEngineType2Mark32Model4(3, "Mark")
+                .checkSortingEngineType2Mark32Model4(4, "Model")
+                .checkSortingByPrice();
     }
 
     public void checkCreatingCar() {
-        loginPage.openPage();
-        loginPage.login(User.userStandard().getUsername(),
-                User.userStandard().getPassword());
+        loginPage.openPage()
+                .login(User.userStandard().getUsername(),
+                        User.userStandard().getPassword());
         createNewCarPage.openCreateNewCarPage();
         Car car = new Car("CNG", "Volvo", "S14", 50000.00);
         int carId = createNewCarPage.addNewCar(car);
