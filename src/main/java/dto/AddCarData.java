@@ -5,8 +5,9 @@ import lombok.Value;
 
 @Value
 @Builder
-public class AddMoneyData {
+public class AddCarData {
 
     int userId;
-    double money;
+    int carId;
+    String action; // BUY/SELL
 }
