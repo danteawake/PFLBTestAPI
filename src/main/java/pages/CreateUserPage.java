@@ -1,17 +1,18 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 public class CreateUserPage extends BasePage {
 
-    // Локаторы
+    private static final Faker faker = new Faker();
+
     private final SelenideElement firstNameInput = $("#first_name_send");
     private final SelenideElement lastNameInput = $("#last_name_send");
     private final SelenideElement ageInput = $("#age_send");
@@ -30,10 +31,17 @@ public class CreateUserPage extends BasePage {
         return this;
     }
 
-    @Step("Создать пользователя: {firstName} {lastName}, возраст {age}, пол {sex}, баланс {money}")
-    public CreateUserPage createUser(String firstName, String lastName, int age, String sex, int money) {
-        log.info("Создание пользователя: {} {}, возраст {}, пол {}, баланс {}",
-                firstName, lastName, age, sex, money);
+    @Step("Создать пользователя с балансом {money}")
+    public int createUser(int money) {
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName() + "_" + System.currentTimeMillis();
+        int age = faker.number().numberBetween(18, 65);
+        String sex = faker.options().option("MALE", "FEMALE");
+
+        log.info("Создание пользователя: {} {}, возраст {}, пол {}, баланс {}", firstName, lastName, age, sex, money);
+
+        openPage();
+        sleep(500);
 
         firstNameInput.setValue(firstName);
         lastNameInput.setValue(lastName + "_" + System.currentTimeMillis());
@@ -53,7 +61,9 @@ public class CreateUserPage extends BasePage {
         pushButton.shouldBe(visible).click();
         log.info("Кнопка PUSH TO API нажата");
 
-        return this;
+        checkStatus("Successfully pushed");
+
+        return getCreatedUserId();
     }
 
     @Step("Проверить статус создания пользователя: {expectedText}")

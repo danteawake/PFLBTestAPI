@@ -1,7 +1,5 @@
 package pages;
 
-import adapters.CarAdapter;
-import com.codeborne.selenide.SelenideElement;
 import dto.Car;
 import dto.CarNotFull;
 import io.qameta.allure.Step;

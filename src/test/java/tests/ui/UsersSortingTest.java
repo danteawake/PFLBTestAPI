@@ -14,7 +14,7 @@ public class UsersSortingTest extends BaseTest {
                 .checkTableElementText("Last name:", 1, "Lubowitz");
 //                .checkTableRowsCount(9747);
         usersReadUserWithCar.openPage()
-                .enterAndReadUserId(7338)
+                .enterAndReadUserId(3)
                 .checkUserTableText("Last name:", 1, "Denesik")
                 .checkCarTableText("Mark:", 1, "Tesla")
                 .checkStatusMessage("Status: 200 ok");

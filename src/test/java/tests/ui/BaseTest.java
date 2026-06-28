@@ -26,9 +26,12 @@ public class BaseTest {
     protected CarsReadAll carReaAll;
     protected CreateNewCarPage createNewCarPage;
     protected AllPostPage allPostPage;
-    protected UserAddMoneyPage userAddMoneyPage;
+    protected UpdateUserMoneyPage updateUserMoneyPage;
     protected CreateUserPage createUserPage;
     protected AllDeletePage allDeletePage;
+    protected UpdateUserCarPage updateUserCarPage;
+    protected CreateHousePage createHousePage;
+    protected UpdateUserHousePage updateUserHousePage;
 
     @BeforeClass
     public void setUp() {  // Убрали static
@@ -122,8 +125,11 @@ public class BaseTest {
         carReaAll = new CarsReadAll();
         createNewCarPage = new CreateNewCarPage();
         allPostPage = new AllPostPage();
-        userAddMoneyPage = new UserAddMoneyPage();
+        updateUserMoneyPage = new UpdateUserMoneyPage();
         createUserPage = new CreateUserPage();
         allDeletePage = new AllDeletePage();
+        updateUserCarPage = new UpdateUserCarPage();
+        createHousePage = new CreateHousePage();
+        updateUserHousePage = new UpdateUserHousePage();
     }
 }

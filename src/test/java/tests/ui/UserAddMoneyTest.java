@@ -8,57 +8,49 @@ import org.testng.annotations.Test;
 
 public class UserAddMoneyTest extends BaseTest {
 
-    @Test(description = "Проверка добавления денег пользователю (положительная сумма)")
+    @Test(priority = 1, description = "1. Добавление денег (положительная сумма)")
     @Description("Пользователь добавляет положительную сумму, баланс увеличивается")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddPositiveMoney() {
+    public void addPositiveMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser(100);
 
-        userAddMoneyPage.openPage()
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, 1000)
-                .checkStatus("code: 200");
+                .checkStatus("code: 200")
+                .checkBalance(1100);// баланс увеличился
     }
 
-    @Test(description = "Проверка добавления отрицательной суммы")
+    @Test(priority = 2, description = "2. Добавление отрицательной суммы")
     @Description("Пользователь пытается добавить отрицательную сумму — ошибка")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddNegativeMoney() {
+    public void addNegativeMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser(100);
 
-        userAddMoneyPage.openPage()
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, -500)
-                .checkStatus("Incorrect input data");
+                .checkStatus("Incorrect input data");   // Баланс не проверяем на UI (не отображается при ошибке)
     }
 
-    @Test(description = "Проверка добавления нулевой суммы")
+    @Test(priority = 3, description = "3. Добавление нулевой суммы")
     @Description("Пользователь добавляет 0 — ошибка (сервер не принимает 0)")
-    @Feature("Users")
+    @Feature("Users UI")
     @Story("Добавление денег")
     @Owner("Якушин Андрей")
-    public void testAddZeroMoney() {
+    public void addZeroMoney() {
         loginPage.openPage().login(testUsername, testPassword);
 
-        int userId = createUserPage.openPage()
-                .createUser("Test", "User", 25, "MALE", 100)
-                .checkStatus("Successfully pushed")
-                .getCreatedUserId();
+        int userId = createUserPage.createUser(100);
 
-        userAddMoneyPage.openPage()
+        updateUserMoneyPage.openPage()
                 .addMoney(userId, 0)
-                .checkStatus("Incorrect input data");
+                .checkStatus("Incorrect input data");   // Баланс не проверяем на UI (не отображается при ошибке)
     }
 }

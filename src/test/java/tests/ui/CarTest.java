@@ -1,6 +1,7 @@
 package tests.ui;
 
 import adapters.CarAdapter;
+import adapters.LoginAdapter;
 import db.CarDBConnection;
 import dto.Car;
 import dto.CarNotFull;
@@ -9,8 +10,8 @@ import jdk.jfr.Description;
 import jdk.jfr.Enabled;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.CreateNewCarPage;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -19,6 +20,15 @@ import static org.testng.AssertJUnit.assertEquals;
 testName = "Открытие страницы логина")
 @Description("Открытие страницы логина с корректными кредами")
 public class CarTest extends BaseTest {
+
+    private String apiToken; // Поле для хранения токена внутри класса
+
+    @BeforeMethod(description = "Получение токена авторизации для предварительных API-шагов")
+    public void setUpApiToken() {
+        // Запрашиваем токен перед запуском теста
+        apiToken = LoginAdapter.loginApi().getAccessToken();
+    }
+
     public void checkOpenedPage() {
         loginPage.openPage().login(
                 User.userStandard().getUsername(),
@@ -48,7 +58,7 @@ public class CarTest extends BaseTest {
         connection.connect();
         Assert.assertEquals(connection.selectCreatedCar(carId), 1);
         log.info("Id созданного автомобиля найден в таблице БД car");
-        CarAdapter.deleteCar(carId);                                   //Удаляем созданный автомобиль
+        CarAdapter.deleteCar(carId, apiToken);                                   //Удаляем созданный автомобиль
         assertEquals(0, connection.deleted(carId));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();
