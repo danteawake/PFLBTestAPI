@@ -5,8 +5,9 @@ import lombok.Value;
 
 @Value
 @Builder
-public class AddMoneyData {
+public class AddHouseData {
 
     int userId;
-    double money;
+    int houseId;
+    String action;//SETTLE/EVICT
 }
