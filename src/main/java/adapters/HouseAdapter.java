@@ -1,7 +1,6 @@
 package adapters;
 
 import com.google.gson.Gson;
-import io.qameta.allure.Step;
 import models.positive.HouseRequest;
 import models.positive.HouseResponse;
 
@@ -13,7 +12,6 @@ public class HouseAdapter {
 
     static Gson gson = new Gson();
 
-    @Step("Создать дом с этажностью {floorCount} и ценой {price}")
     public static HouseResponse createHouse(int floorCount, double price, String token) {
         HouseRequest request = HouseRequest.builder()
                 .floorCount(floorCount)
@@ -34,7 +32,6 @@ public class HouseAdapter {
                 .as(HouseResponse.class);
     }
 
-    @Step("Заселить пользователя {userId} в дом {houseId}")
     public static void settleUser(int houseId, int userId, String token) {
         given()
                 .spec(BaseAdapter.spec)

@@ -1,7 +1,6 @@
 package adapters;
 
 import com.google.gson.Gson;
-import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import models.positive.CarRequest;
@@ -71,7 +70,6 @@ public class CarAdapter extends BaseAdapter {
                 .spec(ok204);
     }
 
-    @Step("Купить машину с ID {carId} для пользователя {userId}")
     public static void buyCar(int userId, int carId, String token) {
         given()
                 .spec(BaseAdapter.spec)
@@ -84,7 +82,6 @@ public class CarAdapter extends BaseAdapter {
                 .spec(BaseAdapter.ok200);
     }
 
-    @Step("Продать машину с ID {carId} у пользователя {userId}")
     public static void sellCar(int userId, int carId, String token) {
         given()
                 .spec(BaseAdapter.spec)
@@ -97,7 +94,6 @@ public class CarAdapter extends BaseAdapter {
                 .spec(BaseAdapter.ok200);
     }
 
-    @Step("Получить список машин пользователя {userId}")
     public static List<CarResponse> getUserCars(int userId, String token) {
         Response response = given()
                 .spec(BaseAdapter.spec)
