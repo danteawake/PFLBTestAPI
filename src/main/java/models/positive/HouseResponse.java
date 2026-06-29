@@ -28,4 +28,50 @@ public class HouseResponse {
     @SerializedName("lodgers")
     @Expose
     public List<UserResponse> lodgers;
+
+    @Data
+    public static class HouseParkingPlace {
+        @SerializedName("id")
+        @Expose
+        public Integer id;
+
+        @SerializedName("isWarm")
+        @Expose
+        public Boolean isWarm;
+
+        @SerializedName("isCovered")
+        @Expose
+        public Boolean isCovered;
+
+        @SerializedName("placesCount")
+        @Expose
+        public Integer placesCount;
+    }
+
+    @Data
+    public static class UserResponse {
+        @SerializedName("id")
+        @Expose
+        public Integer id;
+
+        @SerializedName("firstName")
+        @Expose
+        public String firstName;
+
+        @SerializedName("secondName")
+        @Expose
+        public String secondName;
+
+        @SerializedName("age")
+        @Expose
+        public Integer age;
+
+        @SerializedName("sex")
+        @Expose
+        public String sex;
+
+        @SerializedName("money")
+        @Expose
+        public Double money;
+    }
 }

@@ -6,13 +6,11 @@ import adapters.HouseAdapter;
 import adapters.UserAdapter;
 import io.qameta.allure.*;
 import io.restassured.module.jsv.JsonSchemaValidator;
-import models.positive.CarRequest;
-import models.positive.CarResponse;
-import models.positive.HouseResponse;
-import models.positive.UserResponse;
+import models.positive.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -118,7 +116,15 @@ public class UserAPITest extends BaseAPITest {
         // 2. Создаём дом
         int floorCount = 2;
         double price = 10000.0;
-        HouseResponse createdHouse = HouseAdapter.createHouse(floorCount, price, token);
+
+        HouseRequest request = HouseRequest.builder()
+                .floorCount(floorCount)
+                .price(price)
+                .parkingPlaces(Collections.emptyList())
+                .lodgers(Collections.emptyList())
+                .build();
+
+        HouseResponse createdHouse = HouseAdapter.createHouse(request, token);
         int houseId = createdHouse.id;
 
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)

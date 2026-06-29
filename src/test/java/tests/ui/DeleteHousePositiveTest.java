@@ -7,9 +7,12 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import models.positive.HouseRequest;
 import models.positive.HouseResponse;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -24,6 +27,16 @@ public class DeleteHousePositiveTest extends BaseTest {
         apiToken = LoginAdapter.loginApi().getAccessToken();
     }
 
+    int floorCount = 1;
+    double price = 100.0;
+
+    HouseRequest request = HouseRequest.builder()
+            .floorCount(floorCount)
+            .price(price)
+            .parkingPlaces(Collections.emptyList())
+            .lodgers(Collections.emptyList())
+            .build();
+
     @SneakyThrows
     @Test(description = "Проверка удаления дома",
             testName = "Проверка удаления дома")
@@ -31,7 +44,7 @@ public class DeleteHousePositiveTest extends BaseTest {
     @Description("Проверка удаления дома")
     public void checkDeleteHouse() {
         //Создаем дом через api
-        HouseResponse houseResponse = HouseAdapter.createHouse(1, 100.0, apiToken);
+        HouseResponse houseResponse = HouseAdapter.createHouse(request, apiToken);
         int houseId = houseResponse.id;
         log.info("Дом создан. ID = {}", houseId);
 
