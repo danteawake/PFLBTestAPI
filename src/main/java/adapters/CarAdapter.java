@@ -20,7 +20,7 @@ public class CarAdapter extends BaseAdapter {
         System.out.println(token);
         return given()
                 .spec(spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .body(gson.toJson(carRq))
                 .when()
                 .post("/car")
@@ -33,7 +33,7 @@ public class CarAdapter extends BaseAdapter {
     public static void createCarWithIncorrectEngineType(CarRequest carRq, String token) {
         given()
                 .spec(spec)
-                .header("Authorization", token)
+                .header("Authorization", "Bearer " + token)
                 .body(gson.toJson(carRq))
                 .when()
                 .post("/car")
