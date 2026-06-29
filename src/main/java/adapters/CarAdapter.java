@@ -15,13 +15,12 @@ import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
     static Gson gson = new Gson();
-   private static String token = "Bearer " + LoginAdapter.getAccessToken();
 
     public static CarResponse createCar(CarRequest carRq, String token) {
         System.out.println(token);
         return given()
                 .spec(spec)
-                .header("Authorization", "Bearer " + token)
+                .header("Authorization", token)
                 .body(gson.toJson(carRq))
                 .when()
                 .post("/car")
@@ -31,7 +30,7 @@ public class CarAdapter extends BaseAdapter {
                 .extract()
                 .as(CarResponse.class);
     }
-    public static void createCarWithIncorrectEngineType(CarRequest carRq) {
+    public static void createCarWithIncorrectEngineType(CarRequest carRq, String token) {
         given()
                 .spec(spec)
                 .header("Authorization", token)

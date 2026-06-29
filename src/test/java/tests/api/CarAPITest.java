@@ -65,6 +65,6 @@ public class CarAPITest extends BaseAPITest {
     public void checkCreatingWithNotAllFields(){
         CarDBConnection connection = new CarDBConnection();
         connection.connect();
-        CarAdapter.createCarWithIncorrectEngineType(carRqWithWrongEngineType);
+        CarAdapter.createCarWithIncorrectEngineType(carRqWithWrongEngineType,token);
     }
 }
