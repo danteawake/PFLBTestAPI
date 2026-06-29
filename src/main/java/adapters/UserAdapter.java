@@ -70,4 +70,15 @@ public class UserAdapter extends BaseAdapter {
 
         return createUser(userRequest, token);
     }
+    public static void deleteUser(int userId, String token) {
+
+        given()
+                .spec(spec)
+                .header("Authorization", "Bearer " + token)
+                .pathParam("userId", userId)
+                .when()
+                .delete("/user/{userId}")
+                .then()
+                .spec(ok204);
+    }
 }

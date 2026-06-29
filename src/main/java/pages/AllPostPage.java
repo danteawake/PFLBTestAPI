@@ -35,6 +35,7 @@ public class AllPostPage extends BasePage {
                     "Money");
     private final SelenideElement addMoneyPushButton =
             $x("(//button[contains(@class,'tableButton')])[2]");
+
     private final SelenideElement addMoneyStatusMessage =
             $x("(//button[contains(@class,'status')])[2]");
     private final SelenideElement newBalanceMessage =
@@ -169,7 +170,9 @@ public class AllPostPage extends BasePage {
     }
     @Step("Получаем статус добавления денег")
     public String getAddMoneyStatusMessage() {
-        addMoneyStatusMessage.shouldNotHave(text("not pushed"));
+        addMoneyStatusMessage.shouldBe(visible)
+                            .shouldNotHave(text("not pushed"))
+                            .shouldHave(text("200"));
         String status = addMoneyStatusMessage.getText();
         log.info("Получен статус: {}", status);
         return status;
