@@ -15,9 +15,7 @@ import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
     static Gson gson = new Gson();
-    private static String token = "Bearer " + LoginAdapter.getAccessToken();
-
-    public static CarResponse createCar(CarRequest carRq) {
+   private static String token = "Bearer " + LoginAdapter.getAccessToken();
 
     public static CarResponse createCar(CarRequest carRq, String token) {
         System.out.println(token);
