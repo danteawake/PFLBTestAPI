@@ -1,18 +1,24 @@
 package tests.jdbc;
 
+import adapters.HouseAdapter;
 import adapters.UserAdapter;
 import adapters.LoginAdapter;
 import db.UserDBConnection;
+import dto.AddHouseData;
 import dto.AddMoneyData;
 import dto.UserCreateData;
 import io.qameta.allure.Owner;
 import jdk.jfr.Description;
+import models.positive.HouseRequest;
+import models.positive.HouseResponse;
 import models.positive.UserRequest;
 import models.positive.UserResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import tests.ui.BaseTest;
+
+import java.util.Collections;
 
 public class AllPostJDBCTest extends BaseTest {
 
@@ -68,9 +74,7 @@ public class AllPostJDBCTest extends BaseTest {
         db.close();
     }
 
-    @Test( description = "Проверка в БД добавления денег через AllPost UI" +
-            "Проверка: создание пользователя через API, добавление денег через AllPost UI, " +
-                    "проверка в БД и удаление через API",
+    @Test(description = "Проверка в БД добавления денег через AllPost UI",
             testName = "Проверка в БД добавления денег через AllPost")
     @Description("Пользователю сзданному через API добавляются деньги через форму All Post " +
             "и баланс сверяется с базой данных")
@@ -121,7 +125,7 @@ public class AllPostJDBCTest extends BaseTest {
         UserAdapter.deleteUser(userId, apiToken);
 
         // Проверяем что удален в бд
-        Assert.assertEquals(db.deleted(userId),0,
+        Assert.assertEquals(db.deleted(userId), 0,
                 "Пользователь не удалён из БД");
 
         db.close();
