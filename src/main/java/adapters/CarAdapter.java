@@ -30,6 +30,17 @@ public class CarAdapter extends BaseAdapter {
                 .extract()
                 .as(CarResponse.class);
     }
+    public static void createCarWithIncorrectEngineType(CarRequest carRq, String token) {
+        given()
+                .spec(spec)
+                .header("Authorization", "Bearer " + token)
+                .body(gson.toJson(carRq))
+                .when()
+                .post("/car")
+                .then()
+                .spec(badRequest400);
+
+    }
 
     public static CarResponse getCar(int carId, String token) {
         return given()

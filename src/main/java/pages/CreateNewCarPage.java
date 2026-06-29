@@ -1,6 +1,7 @@
 package pages;
 
 import dto.Car;
+import dto.CarNotFull;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
@@ -57,5 +58,20 @@ public class CreateNewCarPage extends BasePage {
         }
         log.info("Создан автомобиль с id {}", id);
         return id;
+    }
+
+    @Step("Создаем автомобиль не со всеми полями")
+    public void createCarWithNotAllFields(CarNotFull carNotFull) {
+        sleep(1000);
+        new InputCar("Engine", 2).write(carNotFull.getEngine_Type(), 2);
+        sleep(1000);
+        new InputCar("Mark", 3).write(carNotFull.getMark(), 3);
+        sleep(1000);
+        new InputCar("Model", 4).write(carNotFull.getModel(), 4);
+        sleep(1000);
+        $x(PUSH_TO_API_BUTTON).click();
+        sleep(3000);
+        String status = $x(STATUS_BUTTON).getText(); //плашка Status not pushed
+        Assert.assertEquals(status, "Status: Invalid request data");
     }
 }
