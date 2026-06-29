@@ -1,6 +1,5 @@
 package tests.jdbc;
 
-import adapters.LoginAdapter;
 import adapters.UserAdapter;
 import com.github.javafaker.Faker;
 import db.UserDBConnection;
@@ -10,21 +9,11 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
 import models.positive.UserResponse;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import tests.ui.BaseTest;
 
-public class UserJDBCTest extends BaseTest {
+public class UserJDBCTest extends BaseJDBCTest {
 
     private static final Faker faker = new Faker();
-
-    private String apiToken;
-
-    @BeforeMethod(description = "Получение токена авторизации для предварительных API-шагов")
-    public void setUpApiToken() {
-        // Запрашиваем токен перед запуском теста
-        apiToken = LoginAdapter.loginApi().getAccessToken();
-    }
 
     @Test(priority = 1,
             description = "13. Проверка баланса пользователя в БД")
@@ -33,32 +22,23 @@ public class UserJDBCTest extends BaseTest {
     @Story("Проверка баланса в БД")
     @Owner("Якушин Андрей")
     public void checkUserBalanceInDB() {
-        // 1. Авторизация
-        loginPage.openPage().login(testUsername, testPassword);
+        // 1. Создаём пользователя через API (без UI)
+        double randomBalance = faker.number().numberBetween(1, 1000000);
+        UserResponse createdUser = UserAdapter.createRandomUser(randomBalance, apiToken);
+        int userId = createdUser.id;
 
-        // 2. Создаём пользователя со случайным балансом через UI
-        int randomBalance = faker.number().numberBetween(1, 1000000);
-        logger.info("Случайный баланс: {}", randomBalance);
-
-        int userId = createUserPage.createUser(randomBalance);
-        logger.info("Создан пользователь ID: {}", userId);
-
-        // 3. Получаем баланс из API (GET /user/{userId})
+        // 2. Получаем баланс из API
         UserResponse userFromApi = UserAdapter.getUser(userId, apiToken);
         double balanceFromApi = userFromApi.money;
-        logger.info("Баланс из API: {}", balanceFromApi);
 
-        // 4. Получаем баланс из БД
+        // 3. Получаем баланс из БД
         UserDBConnection userDB = new UserDBConnection();
         userDB.connect();
         double balanceFromDB = userDB.getUserBalanceFromDB(userId);
         userDB.close();
-        logger.info("Баланс из БД: {}", balanceFromDB);
 
-        // 5. Сравниваем балансы (API и БД должны совпадать)
+        // 4. Сравниваем балансы (API и БД должны совпадать)
         Assert.assertEquals(balanceFromApi, balanceFromDB,
                 "Баланс в API и БД не совпадают!");
-
-        logger.info("Тест 13 пройден: баланс в API и БД совпадают");
     }
 }
