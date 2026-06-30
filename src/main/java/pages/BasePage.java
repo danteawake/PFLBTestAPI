@@ -5,6 +5,7 @@ import step.TableStep;
 import wrappers.DropDown;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$x;
 
 public abstract class BasePage {
 
@@ -28,4 +29,6 @@ public abstract class BasePage {
     public final DropDown housesIssueALoanTab = new DropDown("Houses", "Read one by ID");
     public final DropDown housesCreateNewTab = new DropDown("Houses", "Create new");
     public final DropDown housesSettleOrEvictUserTab = new DropDown("Houses", "Settle or evict user");
+    //-----Button
+    public static SelenideElement btnPushToApi = $x("//button[contains(text(), 'PUSH')]");
 }
