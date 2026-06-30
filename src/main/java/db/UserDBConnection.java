@@ -52,4 +52,41 @@ public class UserDBConnection extends BaseDBConnection {
             throw new RuntimeException(e);
         }
     }
+
+    public int selectCreatedUser(int userId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "select count(id) from person where id = ?");
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            int count = 0;
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            rs.close();
+            preparedStatement.close();
+            return count;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int getHouseIdByUserId(int userId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT house_id FROM person WHERE id = ?"
+            );
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            int houseId = -1;
+            if (rs.next()) {
+                houseId = rs.getInt("house_id");
+            }
+            rs.close();
+            preparedStatement.close();
+            return houseId;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при получении house_id пользователя", e);
+        }
+    }
 }
