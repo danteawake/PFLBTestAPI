@@ -32,6 +32,7 @@ public class BaseTest {
     protected UpdateUserCarPage updateUserCarPage;
     protected CreateHousePage createHousePage;
     protected UpdateUserHousePage updateUserHousePage;
+    protected ReadHousePage readHousePage;
 
     @BeforeClass
     public void setUp() {  // Убрали static
@@ -131,5 +132,6 @@ public class BaseTest {
         updateUserCarPage = new UpdateUserCarPage();
         createHousePage = new CreateHousePage();
         updateUserHousePage = new UpdateUserHousePage();
+        readHousePage = new ReadHousePage();
     }
 }
