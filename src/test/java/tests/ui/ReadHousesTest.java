@@ -15,7 +15,7 @@ import static org.testng.Assert.*;
 @Feature("Houses UI")
 @Story("Read House")
 @Owner("Лямкина Татьяна")
-public class HouseTest extends BaseTest{
+public class ReadHousesTest extends BaseTest{
 
     @Test(priority = 1)
     @Description("Проверка, что на странице есть пустые поля")
@@ -23,7 +23,7 @@ public class HouseTest extends BaseTest{
         loginPage.openPage().login(testUsername, testPassword);
         readHousePage
                 .openPageOne()
-                .clickRead("138");
+                .clickRead(138);
         assertTrue(readHousePage.hasEmptyFields(),
                 "Пустых полей нет");
     }
@@ -34,7 +34,7 @@ public class HouseTest extends BaseTest{
         loginPage.openPage().login(testUsername, testPassword);
         readHousePage
                 .openPageOne()
-                .clickRead("1");
+                .clickRead(1);
         assertFalse(readHousePage.hasEmptyFields(),
                 "Имеются пустые поля на странице");
     }
@@ -51,16 +51,17 @@ public class HouseTest extends BaseTest{
     @Test(priority = 4)
     @Description("Сравнение данных о жильцах с ReadAllHousesPage и ReadOneByIDPage")
     public void checkingTheDataWithTheReadAllPage() {
+        Integer id = 1;
         loginPage
                 .openPage()
                 .login(testUsername, testPassword);
         readHousePage
                 .openPageOne()
-                .clickRead("1");
+                .clickRead(id);
         List<String> lodgersReadOneByIDPageSaved = ReadHousePage.lodgersReadOneByIDPage();
         readHousePage.openPageAll();
         assertEquals(lodgersReadOneByIDPageSaved,
-                ReadHousePage.lodgersReadAllHousePage(),
+                ReadHousePage.lodgersReadAllHousePage(id),
                 "Данные о жильцах не совпадают");
     }
 }

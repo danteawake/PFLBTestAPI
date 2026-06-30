@@ -21,7 +21,7 @@ public class ReadHousePage extends BasePage {
     private static final SelenideElement pageReadAll = $x("//a[@href='#/read/houses']");
     private static final SelenideElement pageReadOneId = $x("//a[@href='#/read/house']");
     private static final SelenideElement buttonReload = $x("//button[text()='Reload']");
-    private static final String lodgersIdRealAll = "//*[@id='root']/div/section/div/table/tbody/tr[1]/td[5]/table/tbody/tr/td";
+    private static final String lodgersIdRealAll = "//*[@id='root']/div/section/div/table/tbody/tr[%s]/td[5]/table/tbody/tr/td";
     private static final String lodgersOneId = "//*[@id='root']/div/section/div/table[2]/tbody/tr/td";
     private static final SelenideElement sendId = $x("//input[@type ='number']");
     private static final SelenideElement buttonRead = $x("//button[@class='tableButton btn btn-primary']");
@@ -78,9 +78,9 @@ public class ReadHousePage extends BasePage {
     }
 
     @Step("Поиск дома по ID: {ID} и нажатие кнопки Read")
-    public void clickRead(String ID) {
-        log.info("Поиск дома по ID: {}", ID);
-        sendId.setValue(String.valueOf(ID));
+    public void clickRead(Integer id) {
+        log.info("Поиск дома по ID: {}", id);
+        sendId.setValue(String.valueOf(id));
         log.info("Клик на УЭ Read");
         buttonRead.click();
         log.info("Ожидаем загрузку таблицы");
@@ -101,10 +101,10 @@ public class ReadHousePage extends BasePage {
     }
 
     @Step("Получение информации по жильцам на странице ReadAllHousesPage")
-    public static List<String> lodgersReadAllHousePage() {
-        return getLodgersList(lodgersIdRealAll, "ReadAllHousesPage");
+    public static List<String> lodgersReadAllHousePage(Integer id) {
+        String xpath = String.format(lodgersIdRealAll, id);
+        return getLodgersList(xpath, "ReadAllHousesPage");
     }
-
 
     @Step("Получение информации по жильцам на странице ReadOneByIDPage")
     public static List<String> lodgersReadOneByIDPage() {
