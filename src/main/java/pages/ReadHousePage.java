@@ -1,13 +1,15 @@
 package pages;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static org.testng.Assert.assertFalse;
@@ -41,29 +43,27 @@ public class ReadHousePage extends BasePage {
         return this;
     }
 
-    @Step("Поиск пустых полей на странице ReadAllHousesPage")
-    public static Boolean hasEmptyFields() {
-        log.info("Ищем пустые поля на странице ReadAllHousesPage");
-
-        List<String> texts = $$x("//td").texts();
-        List<String> emptyFields = texts.stream()
-                .filter(String::isEmpty)
-                .collect(Collectors.toList());
-
-        if (!emptyFields.isEmpty()) {
-            log.info("Найдено {} пустых полей", emptyFields.size());
-            log.info("Пустые поля: {}", emptyFields);
+    @Step("Проверка наличия пустых полей на странице дома")
+    public boolean hasEmptyFields() {
+        log.info("Поиск пустых полей на странице дома");
+        ElementsCollection cells = $$x("//td")
+                .shouldHave(sizeGreaterThan(0), Duration.ofSeconds(10));
+        List<String> texts = cells.shouldHave(sizeGreaterThan(0)).texts();
+        log.info("Найдено ячеек: {}", texts.size());
+        boolean hasEmpty = texts.stream()
+                .anyMatch(text -> text == null || text.trim().isEmpty());
+        if (hasEmpty) {
+            log.info("Обнаружены пустые поля");
             return true;
-        } else {
-            log.info("Пустые поля не найдены");
-            return false;
         }
+        log.info("Пустые поля не обнаружены");
+        return false;
     }
 
     @Step("Проверка кнопки Reload на странице ReadAllHousesPage")
     public Boolean buttonIsWorked() {
         log.info("Ожидаем загрузку таблицы перед первым сбором данных");
-        $$x("//td").shouldHave(CollectionCondition.sizeGreaterThan(0));
+        $$x("//td").shouldHave(sizeGreaterThan(0));
         log.info("Проверяем все элементы до обновления");
         ElementsCollection allFieldFirstEqual = $$x("//td"); //находим все элементы до обновления
         List<String> stringFieldFirst = allFieldFirstEqual.texts(); //и помещаем в список stringFieldFirst
@@ -83,13 +83,15 @@ public class ReadHousePage extends BasePage {
         sendId.setValue(String.valueOf(ID));
         log.info("Клик на УЭ Read");
         buttonRead.click();
+        log.info("Ожидаем загрузку таблицы");
+        $$x("//td").shouldHave(sizeGreaterThan(0));
     }
 
     @Step("Получение информации по жильцам на странице {pageName}")
     private static List<String> getLodgersList(String xpath, String pageName) {
         log.info("Сбор информации по жильцам на странице {}", pageName);
         List<String> lodgersList = $$x(xpath)
-                .shouldHave(CollectionCondition.sizeGreaterThan(0)) //ждем появления элемента в коллекции
+                .shouldHave(sizeGreaterThan(0)) //ждем появления элемента в коллекции
                 .texts()
                 .stream()
                 .sorted()
