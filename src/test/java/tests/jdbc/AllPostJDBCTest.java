@@ -3,6 +3,7 @@ package tests.jdbc;
 import adapters.HouseAdapter;
 import adapters.UserAdapter;
 import adapters.LoginAdapter;
+import db.HouseDBConnection;
 import db.UserDBConnection;
 import dto.AddHouseData;
 import dto.AddMoneyData;
@@ -127,6 +128,62 @@ public class AllPostJDBCTest extends BaseTest {
         // Проверяем что удален в бд
         Assert.assertEquals(db.deleted(userId), 0,
                 "Пользователь не удалён из БД");
+
+        db.close();
+    }
+    @Test(  description = "Проверка заселения пользователя в дом через AllPost UI с проверкой БД",
+            testName = "Проверка в БД добавления дома AllPost"    )
+    @Description("Создание пользователя через API, добавление дома через AllPost UI и проверка данных в базе данных")
+    @Owner("Шемякина Юлия")
+    public void checkAddHouseToUserAndDB() {
+
+        // Создаём пользователя через API
+        UserRequest userRequest = UserRequest.builder()
+                .firstName("Alex")
+                .secondName("Ivanov")
+                .age(30)
+                .sex("MALE")
+                .money(100000.00)
+                .build();
+
+        UserResponse user = UserAdapter.createUser(userRequest, apiToken);
+        int userId = user.id;
+
+        // Создаём дом через API
+        HouseRequest houseRequest = HouseRequest.builder()
+                .floorCount(2)
+                .price(50000.00)
+                .parkingPlaces(Collections.emptyList())
+                .lodgers(Collections.emptyList())
+                .build();
+
+        HouseResponse house = HouseAdapter.createHouse(houseRequest, apiToken);
+        int houseId = house.id;
+
+        // Заселяем пользователя через UI (AllPost)
+        loginPage.openPage()
+                .login(testUsername, testPassword);
+
+        AddHouseData addHouse = AddHouseData.builder()
+                .userId(userId)
+                .houseId(houseId)
+                .action("settle")
+                .build();
+        allPostPage.openPage()
+                .checkPageOpened()
+                .addHouse(addHouse);
+        allPostPage.getAddHouseStatusMessage();
+
+        // Проверяем в БД
+        UserDBConnection db = new UserDBConnection();
+        db.connect();
+
+        int actualHouseId = db.getHouseIdByUserId(userId);
+
+        Assert.assertEquals(
+                actualHouseId,
+                houseId,
+                "Дом не привязался к пользователю в БД");
 
         db.close();
     }
