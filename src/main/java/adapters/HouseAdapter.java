@@ -48,7 +48,7 @@ public class HouseAdapter {
                 .get("/house/{houseId}")
                 .then()
                 .spec(BaseAdapter.ok200)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/houseSchema.json"))
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/HouseSchema.json"))
                 .extract()
                 .as(HouseResponse.class);
     }
@@ -76,7 +76,7 @@ public class HouseAdapter {
                 .then()
                 .log().all()
                 .spec(BaseAdapter.ok202)
-                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/houseSchema.json"))
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/HouseSchema.json"))
                 .extract()
                 .as(HouseResponse.class);
     }
