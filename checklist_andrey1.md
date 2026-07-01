@@ -1,78 +1,116 @@
-🚀 PFLB Test API
-> **Дипломный проект школы автоматизации тестирования Performance Lab (5 поток)**
-> Автоматизированное тестирование тестового полигона Performance Lab, включающее UI, API и JDBC-проверки CRUD-операций над
-> сущностями User, House и Car.
+# 🚀 PFLB Test API
+
+<p align="center">
+
+![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk)
+![Maven](https://img.shields.io/badge/Maven-3.9-red?style=for-the-badge&logo=apachemaven)
+![Selenide](https://img.shields.io/badge/Selenide-UI_Testing-43B02A?style=for-the-badge)
+![RestAssured](https://img.shields.io/badge/RestAssured-API_Testing-16A085?style=for-the-badge)
+![TestNG](https://img.shields.io/badge/TestNG-Testing-E67E22?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-JDBC-336791?style=for-the-badge&logo=postgresql)
+![Allure](https://img.shields.io/badge/Allure-Reports-8A2BE2?style=for-the-badge)
+![Jenkins](https://img.shields.io/badge/Jenkins-CI/CD-D24939?style=for-the-badge&logo=jenkins)
+
+</p>
+
 ---
-📑 Содержание
-Возможности
-Технологический стек
-Покрытие
-Архитектура
-Структура проекта
-Команда
-Реализованные проверки
-CI/CD
-Известные дефекты
-Запуск
-Отчётность
-Архитектурные решения
+
+## 📖 О проекте
+
+**PFLB Test API** — дипломный проект школы автоматизации тестирования **Performance Lab**.
+
+Цель проекта — разработка единого фреймворка автоматизированного тестирования учебного полигона Performance Lab с
+использованием трех уровней тестирования:
+
+- UI Automation
+- API Automation
+- JDBC Validation
+
+Проект автоматизирует проверку CRUD-операций над сущностями:
+
+- 👤 User
+- 🏠 House
+- 🚗 Car
+
+а также реализует проверку бизнес-логики приложения, интеграцию с CI/CD и генерацию подробной отчетности.
+
 ---
-✨ Возможности
-✅ UI-тестирование (Selenide)
-✅ API-тестирование (RestAssured)
-✅ JDBC-проверки PostgreSQL
-✅ CRUD для User / House / Car
-✅ Cross Browser Testing
-✅ Jenkins CI/CD
-✅ Allure Reports
-✅ Retry Mechanism
+
+# ⭐ Основные возможности
+
+- UI-тестирование пользовательского интерфейса
+- API-тестирование REST-сервисов
+- JDBC-проверка данных в PostgreSQL
+- Автоматизация CRUD-операций
+- Кросс-браузерное тестирование
+- Генерация Allure Report
+- Jenkins Pipeline
+- Retry-механизм
+- TestNG Listeners
+- Генерация тестовых данных
+
 ---
-🛠 Технологический стек
-Категория Технологии
-Язык Java 17
-Сборка Maven
-UI Selenide
-API RestAssured
-База данных PostgreSQL + JDBC
-Тестирование TestNG
-Отчёты Allure
-CI/CD Jenkins
-Логирование Log4j2
-Генерация данных JavaFaker
-Дополнительно Lombok
+
+# 🛠 Технологический стек
+
+| Категория      | Используемые технологии |
+|----------------|-------------------------|
+| Язык           | Java 17                 |
+| UI Automation  | Selenide                |
+| API Automation | RestAssured             |
+| Database       | PostgreSQL + JDBC       |
+| Test Framework | TestNG                  |
+| Build Tool     | Maven                   |
+| Reports        | Allure Report           |
+| CI/CD          | Jenkins                 |
+| Logging        | Log4j2                  |
+| Test Data      | JavaFaker               |
+| Utilities      | Lombok                  |
+
 ---
-📊 Покрытие
-Модуль UI API JDBC
-User ✅ ✅ ✅
-House ✅ ✅ ✅
-Car ✅ ✅ ✅
-Delete ✅ — ✅
-All Post ✅ — ✅
----
-🏗 Архитектура
+
+# 🏗 Архитектура проекта
 
 ```text
-UI Tests      API Tests      JDBC Tests
-      \          |          /
-       \         |         /
-      Business / Step Layer
-               |
-     Page Objects / Adapters
-               |
-            REST API
-               |
-          PostgreSQL
+                    Automated Tests
+     ┌──────────────┬──────────────┬──────────────┐
+     │              │              │
+  UI Tests      API Tests     JDBC Tests
+     │              │              │
+     └──────────────┴──────────────┘
+                    │
+              Business Layer
+                    │
+      ┌─────────────┴─────────────┐
+      │                           │
+  Page Objects               API Adapters
+      │                           │
+      └─────────────┬─────────────┘
+                    │
+              Performance Lab API
+                    │
+               PostgreSQL Database
 ```
 
 ---
-📂 Структура проекта
+
+# 📂 Структура проекта
 
 ```text
 src
+│
 ├── main
 │   ├── api
+│   │   ├── adapters
+│   │   └── models
+│   │
 │   ├── db
+│   │
 │   └── ui
+│       ├── dto
+│       ├── pages
+│       └── wrappers
+│
 └── test
     ├── api
     ├── jdbc
@@ -82,121 +120,16 @@ src
 ```
 
 ---
-👥 Команда
-Участник Основной функционал
-Олег Егоров Авторизация, базовая инфраструктура
-Андрей Якушин Users, Money, Buy/Sell Car, JDBC
-Юлия Шемякина All Post
-Ольга Тощевикова Cars
-Константин Кучма Delete, Retry
-Татьяна Лямкина Houses
-<details>
-<summary><b>Подробнее о вкладе участников</b></summary>
-Олег Егоров
-UI/API авторизация
-BaseTest, BasePage, BaseAdapter, BaseAPITest
-Получение JWT
-Сортировка пользователей
-Андрей Якушин
-Пополнение баланса
-Покупка/продажа автомобиля
-Заселение/выселение
-JDBC-проверка баланса
-TestListener
-YakushinTests.xml
-Юлия Шемякина
-All Post
-Создание User, House, Car
-JDBC-проверки
-Ольга Тощевикова
-CRUD Car
-JSON Schema
-CarDBConnection
-Константин Кучма
-Delete User/House/Car
-Retry Analyzer
-Annotation Transformer
-Татьяна Лямкина
-CRUD House
-Read All / Read By ID
-Проверки домов
-</details>
+
+# 📈 Проект в цифрах
+
+| Показатель             | Значение           |
+|------------------------|--------------------|
+| 👥 Команда             | 6 участников       |
+| 🧪 Уровни тестирования | UI • API • JDBC    |
+| 🏠 Основные сущности   | User • House • Car |
+| ⚙ CI/CD                | Jenkins            |
+| 📊 Отчетность          | Allure             |
+| ☕ Язык разработки      | Java 17            |
+
 ---
-📋 Реализованные проверки
-<details>
-<summary><b>UI</b></summary>
-Авторизация
-CRUD
-Сортировка
-All Post
-Пополнение баланса
-Покупка/продажа автомобиля
-Заселение/выселение
-Проверка отображения элементов
-Позитивные и негативные сценарии
-</details>
-<details>
-<summary><b>API</b></summary>
-CRUD User
-CRUD House
-CRUD Car
-Money
-Sell Car
-Settle User
-Проверка HTTP Status
-JSON Schema Validation
-</details>
-<details>
-<summary><b>JDBC</b></summary>
-Проверка пользователей
-Проверка домов
-Проверка автомобилей
-Проверка баланса
-Проверка удаления
-</details>
----
-⚙ CI/CD
-Pipeline Jenkins выполняет:
-Checkout проекта
-Maven Build
-Запуск TestNG
-Генерацию Allure Report
-Публикацию JUnit Report
-Поддерживаемые параметры:
-Параметр	Значение
-BROWSER	chrome / firefox / edge
-TEST_USER	пользователь полигона
-TEST_PASSWORD	пароль пользователя
----
-🐞 Известные дефекты
-№	Описание
-1	Продажа отсутствующей машины возвращает HTTP 200 вместо ожидаемого HTTP 404
-2	GET `/user/{userId}/cars` возвращает HTTP 204 вместо ожидаемого HTTP 200
----
-▶ Запуск
-```bash
-mvn clean test \
--Dheadless=true \
--Dbrowser=chrome \
--Dtest.user=user@pflb.ru \
--Dtest.password=***
-```
----
-📈 Отчётность
-Allure Report
-JUnit Report
-Jenkins Pipeline
----
-🏛 Архитектурные решения
-Page Object Model
-Adapter Pattern
-DTO
-Base Test Architecture
-Retry Analyzer
-Test Listener
-Parameterized Test Suites
-Cross Browser Testing
----
-🎯 Итог
-Проект представляет собой комплексный фреймворк автоматизированного тестирования, объединяющий UI, API и JDBC-проверки с использованием современных практик автоматизации и интеграцией в процесс CI/CD.
-> Учётные данные тестового полигона и параметры подключения к базе данных намеренно не публикуются в репозитории.
