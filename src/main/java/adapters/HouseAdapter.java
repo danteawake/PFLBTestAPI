@@ -1,15 +1,12 @@
 package adapters;
 
-import com.google.gson.Gson;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import models.positive.HouseRequest;
 import models.positive.HouseResponse;
 
 import static io.restassured.RestAssured.given;
 
-public class HouseAdapter {
-
-    static Gson gson = new Gson();
+public class HouseAdapter extends BaseAdapter {
 
     public static HouseResponse createHouse(HouseRequest houseRequest, String token) {
 

@@ -1,6 +1,5 @@
 package adapters;
 
-import com.google.gson.Gson;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import models.positive.CarRequest;
@@ -14,7 +13,6 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 public class CarAdapter extends BaseAdapter {
-    static Gson gson = new Gson();
 
     public static CarResponse createCar(CarRequest carRq, String token) {
         System.out.println(token);

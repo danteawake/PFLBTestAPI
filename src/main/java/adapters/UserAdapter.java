@@ -1,14 +1,12 @@
 package adapters;
 
 import com.github.javafaker.Faker;
-import com.google.gson.Gson;
 import models.positive.UserRequest;
 import models.positive.UserResponse;
 
 import static io.restassured.RestAssured.given;
 
 public class UserAdapter extends BaseAdapter {
-    static Gson gson = new Gson();
 
     public static UserResponse createUser(UserRequest userRq, String token) {
 
