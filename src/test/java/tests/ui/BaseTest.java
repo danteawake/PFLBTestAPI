@@ -2,8 +2,9 @@ package tests.ui;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import dto.User;
+import ui.dto.User;
 import io.qameta.allure.selenide.AllureSelenide;
+import listners.TestListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,8 +12,10 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import pages.*;
+import org.testng.annotations.Listeners;
+import ui.pages.*;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);

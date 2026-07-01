@@ -1,15 +1,13 @@
 package tests.ui;
 
-import adapters.LoginAdapter;
-import adapters.UserAdapter;
+import api.adapters.UserAdapter;
 import db.UserDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import models.positive.UserRequest;
-import models.positive.UserResponse;
-import org.testng.annotations.BeforeMethod;
+import api.models.user.UserRequest;
+import api.models.user.UserResponse;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -25,13 +23,13 @@ public class DeleteUserPositiveTest extends BaseTest {
             .money(100.0)
             .build();
 
-    private String apiToken; // Переменная для хранения токена API
+//    private String apiToken; // Переменная для хранения токена API
 
-    @BeforeMethod(description = "Получение токена авторизации для API-предварительных шагов")
-    public void setUpApiToken() {
+//    @BeforeMethod(description = "Получение токена авторизации для API-предварительных шагов")
+//    public void setUpApiToken() {
         // Получаем чистый токен из LoginAdapter один раз перед тестом
-        apiToken = LoginAdapter.loginApi().getAccessToken();
-    }
+//        apiToken = LoginAdapter.loginApi().getAccessToken();
+//    }
 
     @SneakyThrows
     @Test(description = "Проверка удаления пользователя",
@@ -40,7 +38,7 @@ public class DeleteUserPositiveTest extends BaseTest {
     @Description("Проверка удаления пользователя")
     public void checkDeleteUser() {
 
-        UserResponse createdUser = UserAdapter.createUser(userRequest, apiToken);
+        UserResponse createdUser = UserAdapter.createUser(userRequest);
         int userId = createdUser.id;
         log.info("Пользователь создан. ID = {}", userId);
         //удаляем автомобиль через ui

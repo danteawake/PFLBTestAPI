@@ -1,7 +1,7 @@
 package tests.api;
 
-import adapters.LoginAdapter;
-import models.positive.LoginResponse;
+import api.adapters.LoginAdapter;
+import api.models.login.LoginResponse;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertNotNull;

@@ -1,11 +1,11 @@
 package tests.ui;
 
-import dto.*;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import ui.dto.*;
 
 @Slf4j
 public class AllPostTest extends BaseTest {

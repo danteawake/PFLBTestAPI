@@ -1,6 +1,5 @@
 package tests.ui;
 
-import dto.User;
 import org.testng.annotations.Test;
 
 public class UsersSortingTest extends BaseTest {

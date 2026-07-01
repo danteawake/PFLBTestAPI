@@ -1,6 +1,6 @@
 package tests.api;
 
-import adapters.LoginAdapter;
+import api.adapters.LoginAdapter;
 import org.testng.annotations.BeforeClass;
 
 public class BaseAPITest {

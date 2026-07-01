@@ -1,6 +1,6 @@
 package tests.jdbc;
 
-import adapters.LoginAdapter;
+import api.adapters.LoginAdapter;
 import org.testng.annotations.BeforeClass;
 
 public class BaseJDBCTest {

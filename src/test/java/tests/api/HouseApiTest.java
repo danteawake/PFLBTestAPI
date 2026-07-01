@@ -1,14 +1,13 @@
 package tests.api;
 
-import adapters.HouseAdapter;
+import api.adapters.HouseAdapter;
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
-import models.positive.HouseRequest;
-import models.positive.HouseResponse;
+import api.models.house.HouseRequest;
+import api.models.house.HouseResponse;
 import org.testng.annotations.Test;
 import java.util.Collections;
 
-import static adapters.HouseAdapter.*;
 import static org.testng.Assert.assertEquals;
 
 @Slf4j
@@ -53,21 +52,21 @@ public class HouseApiTest extends BaseAPITest {
     public void checkCRUDHouse() {
         log.info("=== Начало CRUD теста для дома ===");
         log.info("=== Создание дома ===");
-        HouseResponse rs = HouseAdapter.createHouse(houseRequest, token);
+        HouseResponse rs = HouseAdapter.createHouse(houseRequest);
         Integer id = rs.getId();
         assertEquals(rs.getFloorCount(), houseRequest.getFloorCount(), "Количество этажей не совпадает после создания");
         assertEquals(rs.getPrice(), houseRequest.getPrice(), "Цена не совпадает после создания");
         log.info("Создан дом с ID: {}, этажей: {}, цена: {}", id, rs.getFloorCount(), rs.getPrice());
-        getHouse200(id, token);
+        HouseAdapter.getHouse200(id);
         log.info("=== Обновление дома ===");
-        HouseResponse updateRs = HouseAdapter.updateHouse(id, newHouse, token);
+        HouseResponse updateRs = HouseAdapter.updateHouse(id, newHouse);
         assertEquals(updateRs.getFloorCount(), newFloorCount, "Количество этажей не совпадает после обновления");
         assertEquals(updateRs.getPrice(), newPrice, "Цена не совпадает после обновления");
         log.info("Обновлен дом с ID: {}, этажей: {}, цена: {}", id, rs.getFloorCount(), rs.getPrice());
         log.info("Удаление дома");
-        deleteHouse(id, token);
-        deleteHouse404(id, token);
+        HouseAdapter.deleteHouse(id);
+        HouseAdapter.deleteHouse404(id);
         log.info("GET запрос для удаленного дома вернул 204 (ожидаемо)");
-        getHouse204(id, token);
+        HouseAdapter.getHouse204(id);
     }
 }

@@ -1,6 +1,6 @@
 package tests.ui;
 
-import dto.Car;
+import ui.dto.Car;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
 

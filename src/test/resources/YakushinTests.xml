@@ -3,7 +3,8 @@
 <suite name="Якушин Андрей - все тесты">
 
     <listeners>
-        <listener class-name="utils.TestListener"/>
+        <listener class-name="listners.TestListener"/>
+        <listener class-name="listners.AnnotationTransformer"/>
     </listeners>
 
     <!-- UI-тесты (проверки 1-9) -->
