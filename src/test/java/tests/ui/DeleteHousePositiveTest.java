@@ -1,15 +1,13 @@
 package tests.ui;
 
 import api.adapters.HouseAdapter;
-import api.adapters.LoginAdapter;
+import api.models.house.HouseRequest;
+import api.models.house.HouseResponse;
 import db.HouseDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import api.models.house.HouseRequest;
-import api.models.house.HouseResponse;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -18,14 +16,6 @@ import static org.testng.AssertJUnit.assertEquals;
 
 @Slf4j
 public class DeleteHousePositiveTest extends BaseTest {
-
-    private String apiToken; // Переменная для хранения токена API
-
-    @BeforeMethod(description = "Получение токена авторизации для API-предварительных шагов")
-    public void setUpApiToken() {
-        // Получаем чистый токен из LoginAdapter один раз перед тестом
-        apiToken = LoginAdapter.loginApi().getAccessToken();
-    }
 
     int floorCount = 1;
     double price = 100.0;

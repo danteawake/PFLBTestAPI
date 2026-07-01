@@ -1,13 +1,13 @@
 package tests.ui;
 
 import api.adapters.UserAdapter;
+import api.models.user.UserRequest;
+import api.models.user.UserResponse;
 import db.UserDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import api.models.user.UserRequest;
-import api.models.user.UserResponse;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -22,14 +22,6 @@ public class DeleteUserPositiveTest extends BaseTest {
             .sex("MALE")
             .money(100.0)
             .build();
-
-//    private String apiToken; // Переменная для хранения токена API
-
-//    @BeforeMethod(description = "Получение токена авторизации для API-предварительных шагов")
-//    public void setUpApiToken() {
-        // Получаем чистый токен из LoginAdapter один раз перед тестом
-//        apiToken = LoginAdapter.loginApi().getAccessToken();
-//    }
 
     @SneakyThrows
     @Test(description = "Проверка удаления пользователя",

@@ -1,13 +1,13 @@
 package tests.ui;
 
 import api.adapters.CarAdapter;
+import api.models.car.CarRequest;
+import api.models.car.CarResponse;
 import db.CarDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import api.models.car.CarRequest;
-import api.models.car.CarResponse;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -21,14 +21,6 @@ public class DeleteCarPositiveTest extends BaseTest {
             .model("Fantom")
             .price(2000)
             .build();
-
-    //private String apiToken; // Поле для хранения токена внутри класса
-
-    //@BeforeMethod(description = "Получение токена авторизации для предварительных API-шагов")
-    //public void setUpApiToken() {
-        // Запрашиваем токен перед запуском теста
-    //    apiToken = LoginAdapter.loginApi().getAccessToken();
-    //}
 
     @SneakyThrows
     @Test(description = "Проверка удаления автомобиля",

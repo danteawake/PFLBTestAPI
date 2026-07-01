@@ -7,20 +7,20 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class AllDeleteNegativeTest extends BaseTest{
+public class AllDeleteNegativeTest extends BaseTest {
 
     @DataProvider(name = "DeleteTest")
     public Object[][] data() {
         return new Object[][]{
-                {999999999, "user","Status: not pushed"},
-                {0,"user","Status: Bad request"},
-                {-232,"user","Status: Bad request"},
-                {999999999, "house","Status: not pushed"},
-                {0,"house","Status: Bad request"},
-                {-232,"house","Status: Bad request"},
-                {999999999, "car","Status: not pushed"},
-                {0,"car","Status: Bad request"},
-                {-232,"car","Status: Bad request"},
+                {999999999, "user", "Status: not pushed"},
+                {0, "user", "Status: Bad request"},
+                {-232, "user", "Status: Bad request"},
+                {999999999, "house", "Status: not pushed"},
+                {0, "house", "Status: Bad request"},
+                {-232, "house", "Status: Bad request"},
+                {999999999, "car", "Status: not pushed"},
+                {0, "car", "Status: Bad request"},
+                {-232, "car", "Status: Bad request"},
         };
     }
 
@@ -29,12 +29,12 @@ public class AllDeleteNegativeTest extends BaseTest{
             testName = "Проверка ошибок при удалении")
     @Owner("Konstantin")
     @Description("Проверка ошибок  при удалении")
-    public void notValidDeleteData(int id,String button, String status) {
-        loginPage.openPage().login(testUsername,testPassword);
+    public void notValidDeleteData(int id, String button, String status) {
+        loginPage.openPage().login(testUsername, testPassword);
         allDeletePage.openPage()
-                        .isPageOpened()
-                                .input(button,id)
-                                        .clickDelete(button);
+                .isPageOpened()
+                .input(button, id)
+                .clickDelete(button);
         assertEquals(status, allDeletePage.getStatus(button));
     }
 }
