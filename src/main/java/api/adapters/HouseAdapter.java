@@ -11,7 +11,7 @@ public class HouseAdapter extends BaseAdapter {
     public static HouseResponse createHouse(HouseRequest houseRequest) {
 
         return given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .body(gson.toJson(houseRequest))
                 .when()
                 .post("/house")
@@ -24,7 +24,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static void settleUser(int houseId, int userId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .pathParam("userId", userId)
                 // НЕТ .body() — только path-параметры!
@@ -36,7 +36,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static void getHouse200(int houseId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .when()
                 .get("/house/{houseId}")
@@ -49,7 +49,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static void getHouse204(int houseId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .when()
                 .get("/house/{houseId}")
@@ -59,7 +59,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static HouseResponse updateHouse(int houseId, HouseRequest houseRequest) {
         return given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .body(gson.toJson(houseRequest))
                 .pathParam("id", houseId)
                 .log().all()
@@ -75,7 +75,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static void deleteHouse(int houseId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .when()
                 .delete("/house/{houseId}")
@@ -85,7 +85,7 @@ public class HouseAdapter extends BaseAdapter {
 
     public static void deleteHouse404(int houseId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .when()
                 .delete("/house/{houseId}")

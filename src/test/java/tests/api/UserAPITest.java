@@ -37,7 +37,7 @@ public class UserAPITest extends BaseAPITest {
 
         // 2. Отправляем запрос и проверяем JSON Schema
         UserResponse updatedUser = given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .pathParam("amount", addedMoney)
                 .when()
@@ -83,7 +83,7 @@ public class UserAPITest extends BaseAPITest {
         // 4. Продаём машину (проверяем эндпоинт)
         // Проверяем JSON Schema в ответе
         UserResponse updatedUser = given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .pathParam("carId", carId)
                 .when()
@@ -132,7 +132,7 @@ public class UserAPITest extends BaseAPITest {
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
         // Проверяем JSON Schema в ответе
         HouseResponse updatedHouse = given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("houseId", houseId)
                 .pathParam("userId", userId)
                 .when()

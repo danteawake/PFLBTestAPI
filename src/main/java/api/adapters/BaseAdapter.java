@@ -11,8 +11,6 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
-import static api.adapters.LoginAdapter.getAccessToken;
-
 public class BaseAdapter {
 
     public static String URL = "http://82.142.167.37:4879";
@@ -24,11 +22,17 @@ public class BaseAdapter {
     public static RequestSpecification spec = new RequestSpecBuilder()
             .setBaseUri(URL)
             .setContentType(ContentType.JSON)
-            .addHeader("Authorization", "Bearer " + getAccessToken())
             .addFilter(new RequestLoggingFilter())
             .addFilter(new ResponseLoggingFilter())
             .addFilter(new AllureRestAssured())
             .build();
+
+    public static RequestSpecification getAuthenticatedSpec() {
+        return new RequestSpecBuilder()
+                .addRequestSpecification(spec)
+                .addHeader("Authorization", "Bearer " + LoginAdapter.getAccessToken())
+                .build();
+    }
 
     public static ResponseSpecification ok200 = new ResponseSpecBuilder()
             .expectStatusCode(200)

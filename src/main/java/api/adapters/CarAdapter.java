@@ -16,7 +16,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static CarResponse createCar(CarRequest carRq) {
         return given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .body(gson.toJson(carRq))
                 .when()
                 .post("/car")
@@ -28,7 +28,7 @@ public class CarAdapter extends BaseAdapter {
     }
     public static void createCarWithIncorrectEngineType(CarRequest carRq) {
         given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .body(gson.toJson(carRq))
                 .when()
                 .post("/car")
@@ -39,7 +39,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static CarResponse getCar(int carId) {
         return given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .pathParam("carId", carId)
                 .when()
                 .get("/car/{carId}")
@@ -51,7 +51,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static CarResponse updateCar(int carId, CarRequestUpdate carRequestUpdate) {
         return given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .pathParam("carId", carId)
                 .body(gson.toJson(carRequestUpdate))
                 .when()
@@ -65,7 +65,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static void deleteCar(int carId) {
         given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .pathParam("carId", carId)
                 .when()
                 .delete("/car/{carId}")
@@ -75,7 +75,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static void buyCar(int userId, int carId) {
         given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .pathParam("carId", carId)
                 .when()
@@ -97,7 +97,7 @@ public class CarAdapter extends BaseAdapter {
 
     public static List<CarResponse> getUserCars(int userId) {
         Response response = given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .when()
                 .get("/user/{userId}/cars");

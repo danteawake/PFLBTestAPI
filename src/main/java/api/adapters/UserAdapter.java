@@ -11,7 +11,7 @@ public class UserAdapter extends BaseAdapter {
     public static UserResponse createUser(UserRequest userRq) {
 
         return given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .body(gson.toJson(userRq))
                 .when()
                 .post("/user")
@@ -24,7 +24,7 @@ public class UserAdapter extends BaseAdapter {
     public static UserResponse getUser(int userId) {
 
         return given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .when()
                 .get("/user/{userId}")
@@ -36,7 +36,7 @@ public class UserAdapter extends BaseAdapter {
 
     public static UserResponse addMoney(int userId, double amount) {
         return given()
-                .spec(BaseAdapter.spec)
+                .spec(BaseAdapter.getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .pathParam("amount", amount)
                 .when()
@@ -68,7 +68,7 @@ public class UserAdapter extends BaseAdapter {
     public static void deleteUser(int userId) {
 
         given()
-                .spec(spec)
+                .spec(getAuthenticatedSpec())
                 .pathParam("userId", userId)
                 .when()
                 .delete("/user/{userId}")
