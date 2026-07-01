@@ -1,8 +1,8 @@
 package tests.ui;
 
-import ui.dto.Car;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
+import ui.dto.Car;
 
 public class UserCarsTest extends BaseTest {
 
@@ -47,8 +47,7 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 3,
-            description = "6. Продажа машины, которая есть у пользователя",
-            groups = {"bug"})
+            description = "6. Продажа машины, которая есть у пользователя")
     @Description("Пользователь продаёт машину, баланс увеличивается")
     @Feature("Users UI")
     @Story("Продажа машины")
@@ -69,7 +68,8 @@ public class UserCarsTest extends BaseTest {
     }
 
     @Test(priority = 4,
-            description = "7. Продажа машины, которой нет у пользователя")
+            description = "7. Продажа машины, которой нет у пользователя",
+            groups = {"bug"})
     @Description("Пользователь пытается продать машину, которой у него нет")
     @Feature("Users UI")
     @Story("Продажа машины")
