@@ -1,12 +1,16 @@
 package tests.api;
 
-import adapters.BaseAdapter;
-import adapters.CarAdapter;
-import adapters.HouseAdapter;
-import adapters.UserAdapter;
+import api.adapters.BaseAdapter;
+import api.adapters.CarAdapter;
+import api.adapters.HouseAdapter;
+import api.adapters.UserAdapter;
+import api.models.car.CarRequest;
+import api.models.car.CarResponse;
+import api.models.house.HouseRequest;
+import api.models.house.HouseResponse;
+import api.models.user.UserResponse;
 import io.qameta.allure.*;
 import io.restassured.module.jsv.JsonSchemaValidator;
-import models.positive.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,13 +32,12 @@ public class UserAPITest extends BaseAPITest {
         double addedMoney = 300.0;
 
         // 1. Создаём пользователя со случайными данными и балансом 500
-        UserResponse createdUser = UserAdapter.createRandomUser(initialMoney, token);
+        UserResponse createdUser = UserAdapter.createRandomUser(initialMoney);
         int userId = createdUser.id;
 
         // 2. Отправляем запрос и проверяем JSON Schema
         UserResponse updatedUser = given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", "Bearer " + token)
                 .pathParam("userId", userId)
                 .pathParam("amount", addedMoney)
                 .when()
@@ -60,7 +63,7 @@ public class UserAPITest extends BaseAPITest {
     @Issue("BUG. GET /user/{userId}/cars возвращает 204 вместо 200")
     public void checkSellCar() {
         // 1. Создаём пользователя со случайными данными и балансом 10000
-        UserResponse createdUser = UserAdapter.createRandomUser(10000.0, token);
+        UserResponse createdUser = UserAdapter.createRandomUser(10000.0);
         int userId = createdUser.id;
 
         // 2. Создаём машину
@@ -71,17 +74,16 @@ public class UserAPITest extends BaseAPITest {
                 .price(5000)
                 .build();
 
-        CarResponse createdCar = CarAdapter.createCar(carRequest, token);
+        CarResponse createdCar = CarAdapter.createCar(carRequest);
         int carId = createdCar.id;
 
         // 3. Покупаем машину (предусловие)
-        CarAdapter.buyCar(userId, carId, token);
+        CarAdapter.buyCar(userId, carId);
 
         // 4. Продаём машину (проверяем эндпоинт)
         // Проверяем JSON Schema в ответе
         UserResponse updatedUser = given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", "Bearer " + token)
                 .pathParam("userId", userId)
                 .pathParam("carId", carId)
                 .when()
@@ -94,7 +96,7 @@ public class UserAPITest extends BaseAPITest {
 
         // 5. Проверяем, что машина больше не привязана к пользователю
         // БАГ! GET /user/{userId}/cars возвращает 204 вместо 200
-        List<CarResponse> userCars = CarAdapter.getUserCars(userId, token);
+        List<CarResponse> userCars = CarAdapter.getUserCars(userId);
 
         boolean carFound = userCars.stream()
                 .anyMatch(car -> car.id == carId);
@@ -110,7 +112,7 @@ public class UserAPITest extends BaseAPITest {
     @Owner("Якушин Андрей")
     public void checkSettleUser() {
         // 1. Создаём пользователя со случайными данными и балансом 20000
-        UserResponse createdUser = UserAdapter.createRandomUser(20000.0, token);
+        UserResponse createdUser = UserAdapter.createRandomUser(20000.0);
         int userId = createdUser.id;
 
         // 2. Создаём дом
@@ -124,14 +126,13 @@ public class UserAPITest extends BaseAPITest {
                 .lodgers(Collections.emptyList())
                 .build();
 
-        HouseResponse createdHouse = HouseAdapter.createHouse(request, token);
+        HouseResponse createdHouse = HouseAdapter.createHouse(request);
         int houseId = createdHouse.id;
 
         // 3. Заселяем пользователя в дом (ПРОВЕРЯЕМ ЭНДПОИНТ)
         // Проверяем JSON Schema в ответе
         HouseResponse updatedHouse = given()
                 .spec(BaseAdapter.spec)
-                .header("Authorization", "Bearer " + token)
                 .pathParam("houseId", houseId)
                 .pathParam("userId", userId)
                 .when()

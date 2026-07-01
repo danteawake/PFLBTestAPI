@@ -1,13 +1,12 @@
 package tests.ui;
 
-import adapters.CarAdapter;
-import adapters.LoginAdapter;
+import api.adapters.CarAdapter;
+import api.adapters.LoginAdapter;
 import db.CarDBConnection;
-import dto.Car;
-import dto.CarNotFull;
-import dto.User;
+import ui.dto.Car;
+import ui.dto.CarNotFull;
+import ui.dto.User;
 import jdk.jfr.Description;
-import jdk.jfr.Enabled;
 import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -58,7 +57,7 @@ public class CarTest extends BaseTest {
         connection.connect();
         Assert.assertEquals(connection.selectCreatedCar(carId), 1);
         log.info("Id созданного автомобиля найден в таблице БД car");
-        CarAdapter.deleteCar(carId, apiToken);                                   //Удаляем созданный автомобиль
+        CarAdapter.deleteCar(carId);                                   //Удаляем созданный автомобиль
         assertEquals(0, connection.deleted(carId));
         log.info("Автомобиль с id {} успешно удален", carId);
         connection.close();

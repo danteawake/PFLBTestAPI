@@ -1,14 +1,14 @@
 package tests.ui;
 
-import adapters.HouseAdapter;
-import adapters.LoginAdapter;
+import api.adapters.HouseAdapter;
+import api.adapters.LoginAdapter;
 import db.HouseDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import models.positive.HouseRequest;
-import models.positive.HouseResponse;
+import api.models.house.HouseRequest;
+import api.models.house.HouseResponse;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,7 +44,7 @@ public class DeleteHousePositiveTest extends BaseTest {
     @Description("Проверка удаления дома")
     public void checkDeleteHouse() {
         //Создаем дом через api
-        HouseResponse houseResponse = HouseAdapter.createHouse(request, apiToken);
+        HouseResponse houseResponse = HouseAdapter.createHouse(request);
         int houseId = houseResponse.id;
         log.info("Дом создан. ID = {}", houseId);
 

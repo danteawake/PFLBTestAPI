@@ -1,19 +1,18 @@
 package tests.jdbc;
 
-import adapters.HouseAdapter;
-import adapters.UserAdapter;
-import adapters.LoginAdapter;
-import db.HouseDBConnection;
+import api.adapters.HouseAdapter;
+import api.adapters.UserAdapter;
+import api.adapters.LoginAdapter;
 import db.UserDBConnection;
-import dto.AddHouseData;
-import dto.AddMoneyData;
-import dto.UserCreateData;
+import ui.dto.AddHouseData;
+import ui.dto.AddMoneyData;
+import ui.dto.UserCreateData;
 import io.qameta.allure.Owner;
 import jdk.jfr.Description;
-import models.positive.HouseRequest;
-import models.positive.HouseResponse;
-import models.positive.UserRequest;
-import models.positive.UserResponse;
+import api.models.house.HouseRequest;
+import api.models.house.HouseResponse;
+import api.models.user.UserRequest;
+import api.models.user.UserResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -68,7 +67,7 @@ public class AllPostJDBCTest extends BaseTest {
                 "Пользователь не найден в БД после создания через AllPost");
 
         // удаляем через API
-        UserAdapter.deleteUser(userId, apiToken);
+        UserAdapter.deleteUser(userId);
         // Проверяем что удален в бд
         Assert.assertEquals(db.deleted(userId), 0, "Пользователь не удалился из БД");
 
@@ -95,7 +94,7 @@ public class AllPostJDBCTest extends BaseTest {
                 .money(initialMoney)
                 .build();
 
-        UserResponse createdUser = UserAdapter.createUser(userRequest, apiToken);
+        UserResponse createdUser = UserAdapter.createUser(userRequest);
         int userId = createdUser.id;
 
         // Добавляем деньги через UI (AllPost)
@@ -123,7 +122,7 @@ public class AllPostJDBCTest extends BaseTest {
                 "Баланс в БД не совпадает с ожидаемым");
 
         // Удаляем пользователя через API
-        UserAdapter.deleteUser(userId, apiToken);
+        UserAdapter.deleteUser(userId);
 
         // Проверяем что удален в бд
         Assert.assertEquals(db.deleted(userId), 0,
@@ -146,7 +145,7 @@ public class AllPostJDBCTest extends BaseTest {
                 .money(100000.00)
                 .build();
 
-        UserResponse user = UserAdapter.createUser(userRequest, apiToken);
+        UserResponse user = UserAdapter.createUser(userRequest);
         int userId = user.id;
 
         // Создаём дом через API
@@ -157,7 +156,7 @@ public class AllPostJDBCTest extends BaseTest {
                 .lodgers(Collections.emptyList())
                 .build();
 
-        HouseResponse house = HouseAdapter.createHouse(houseRequest, apiToken);
+        HouseResponse house = HouseAdapter.createHouse(houseRequest);
         int houseId = house.id;
 
         // Заселяем пользователя через UI (AllPost)

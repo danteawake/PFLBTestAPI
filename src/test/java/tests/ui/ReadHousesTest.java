@@ -6,7 +6,7 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.Test;
-import pages.ReadHousePage;
+import ui.pages.ReadHousePage;
 import java.util.List;
 
 import static org.testng.Assert.*;

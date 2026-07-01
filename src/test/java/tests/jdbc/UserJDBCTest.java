@@ -1,13 +1,13 @@
 package tests.jdbc;
 
-import adapters.UserAdapter;
+import api.adapters.UserAdapter;
 import com.github.javafaker.Faker;
 import db.UserDBConnection;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
-import models.positive.UserResponse;
+import api.models.user.UserResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,11 +24,11 @@ public class UserJDBCTest extends BaseJDBCTest {
     public void checkUserBalanceInDB() {
         // 1. Создаём пользователя через API (без UI)
         double randomBalance = faker.number().numberBetween(1, 1000000);
-        UserResponse createdUser = UserAdapter.createRandomUser(randomBalance, apiToken);
+        UserResponse createdUser = UserAdapter.createRandomUser(randomBalance);
         int userId = createdUser.id;
 
         // 2. Получаем баланс из API
-        UserResponse userFromApi = UserAdapter.getUser(userId, apiToken);
+        UserResponse userFromApi = UserAdapter.getUser(userId);
         double balanceFromApi = userFromApi.money;
 
         // 3. Получаем баланс из БД
